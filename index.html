@@ -76,7 +76,7 @@
 
 
   .logo-with-img { display: flex; align-items: center; gap: 0.6rem; }
-  .logo-img { height: 40px; width: auto; object-fit: contain; }
+  .logo-img { height: 56px; width: auto; object-fit: contain; }
 
   .logo span { color: var(--cyan); }
 
@@ -1571,47 +1571,28 @@
   </div>
 </section>
 
-<!-- TESTIMONIOS -->
-<section id="testimonios">
-  <div class="reveal" style="text-align:center;">
-    <div class="section-label">// clientes</div>
-    <h2>Lo que dicen nuestros clientes</h2>
-    <p class="section-intro" style="margin:0 auto;">
-      Empresas chilenas que ya automatizaron su gestión de identidades con MarthyIAM.
-    </p>
-  </div>
-  <div class="testimonios-grid reveal">
-    <div class="testimonio-card">
-      <div class="estrellas">★★★★★</div>
-      <p class="testimonio-texto">"Antes tardábamos 3 días en dar acceso a un empleado nuevo. Con MarthyIAM lo hacemos en minutos y con aprobación automática de RRHH. Un cambio total para nuestro equipo IT."</p>
-      <div class="testimonio-autor">
-        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&fit=crop&crop=face" alt="Carlos M." class="testimonio-foto">
-        <div>
-          <div class="testimonio-nombre">Carlos Muñoz</div>
-          <div class="testimonio-cargo">CTO · Retail SPA, Santiago</div>
-        </div>
-      </div>
-    </div>
-    <div class="testimonio-card">
-      <div class="estrellas">★★★★★</div>
-      <p class="testimonio-texto">"La auditoría en tiempo real nos salvó en una revisión de compliance. Pudimos demostrar cada acceso otorgado con fecha, responsable y motivo. Impecable."</p>
-      <div class="testimonio-autor">
-        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face" alt="Andrea V." class="testimonio-foto">
-        <div>
-          <div class="testimonio-nombre">Andrea Vargas</div>
-          <div class="testimonio-cargo">Gerente TI · Clínica Los Andes</div>
-        </div>
-      </div>
-    </div>
-    <div class="testimonio-card">
-      <div class="estrellas">★★★★★</div>
-      <p class="testimonio-texto">"Integramos Active Directory y Salesforce en menos de una semana. El soporte del equipo MarthyIAM fue excepcional. Lo recomiendo sin dudarlo."</p>
-      <div class="testimonio-autor">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Diego R." class="testimonio-foto">
-        <div>
-          <div class="testimonio-nombre">Diego Reyes</div>
-          <div class="testimonio-cargo">Director IT · Constructora Norte</div>
-        </div>
+<!-- FOTO CORPORATIVA -->
+<section id="equipo" style="padding: 0; position:relative; z-index:1;">
+  <div style="position:relative; height: 480px; overflow:hidden;">
+    <img
+      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&h=500&fit=crop&crop=center"
+      alt="Equipo profesional trabajando"
+      style="width:100%; height:100%; object-fit:cover; display:block;"
+    >
+    <div style="
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, rgba(11,13,17,0.92) 0%, rgba(11,13,17,0.5) 50%, rgba(11,13,17,0.1) 100%);
+      display:flex; align-items:center; padding: 0 5vw;
+    ">
+      <div style="max-width:560px;">
+        <div class="section-label">// nuestro enfoque</div>
+        <h2 style="margin-bottom:1rem;">Tecnología enterprise,<br>trato humano</h2>
+        <p style="font-size:1rem; color:var(--text-dim); line-height:1.75; margin-bottom:1.75rem;">
+          Somos un equipo chileno especializado en gestión de identidades.
+          Entendemos el contexto local — las integraciones que usas, las normativas
+          que te aplican y los tiempos reales de tu equipo IT.
+        </p>
+        <a href="#" class="btn-primary" onclick="openModal(event)">Agendar demo gratuita →</a>
       </div>
     </div>
   </div>
