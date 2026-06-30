@@ -17,7 +17,7 @@
     </linearGradient>
     <!-- Sombra suave -->
     <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
-      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0F2A6E" flood-opacity="0.25"/>
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.4"/>
     </filter>
     <!-- Glow acento -->
     <filter id="glow">
@@ -73,26 +73,16 @@
   <line x1="80" y1="18" x2="118" y2="28" stroke="#00C9A7" stroke-width="1" opacity="0.4"/>
 
   <!-- ══════════════════════════════════════════ -->
-  <!-- TIPOGRAFÍA                                 -->
+  <!-- TIPOGRAFÍA (versión clara para fondo oscuro) -->
   <!-- ══════════════════════════════════════════ -->
 
-  <!-- "marthy" en peso bold, color blanco/azul profundo -->
+  <!-- "Marthy" en blanco -->
   <text x="148" y="85"
         font-family="'Segoe UI', 'Inter', 'Helvetica Neue', Arial, sans-serif"
         font-size="46"
         font-weight="700"
         letter-spacing="-1"
-        fill="#0F2A6E">Marthy</text>
-
-  <!-- "IAM" en acento esmeralda, mismo peso -->
-  <text x="148" y="85"
-        font-family="'Segoe UI', 'Inter', 'Helvetica Neue', Arial, sans-serif"
-        font-size="46"
-        font-weight="700"
-        letter-spacing="-1"
-        fill="#0F2A6E">
-    <tspan fill="#0F2A6E">Marthy</tspan>
-  </text>
+        fill="#ffffff">Marthy</text>
 
   <!-- Separador vertical acento -->
   <rect x="310" y="52" width="2.5" height="36" rx="1.5" fill="#00C9A7"/>
@@ -111,7 +101,7 @@
         font-size="11"
         font-weight="400"
         letter-spacing="3"
-        fill="#6B7FA3">IDENTITY · ACCESS · SECURITY</text>
+        fill="#9AAACB">IDENTITY · ACCESS · SECURITY</text>
 
   <!-- Línea decorativa bajo tagline -->
   <rect x="149" y="115" width="280" height="1.5" rx="1" fill="url(#accentGrad)" opacity="0.4"/>
