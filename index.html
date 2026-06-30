@@ -257,7 +257,7 @@
     50% { opacity: 0.4; }
   }
 
-  /* ── TERMINAL CARD (hero visual) ── */
+  /* ── EXPANDABLE DEMO WINDOW ── */
   .hero-visual {
     position: absolute;
     right: 5vw;
@@ -271,6 +271,123 @@
     .hero-visual { display: none; }
     .hero-inner { max-width: 100%; }
   }
+
+  .demo-window {
+    background: var(--deep);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,212,255,0.08);
+    transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .demo-window-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .demo-window-bar:hover { background: var(--muted); }
+
+  .demo-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .demo-window-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    margin-left: 0.5rem;
+  }
+
+  .demo-expand-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--cyan);
+    background: var(--cyan-dim);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .demo-expand-btn:hover {
+    background: rgba(0,212,255,0.2);
+  }
+
+  .demo-collapsed {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .demo-collapsed-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .demo-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .demo-row-text {
+    font-size: 0.8rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .demo-row-badge {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  .badge-green {
+    background: rgba(0,229,160,0.12);
+    color: var(--green);
+    border: 1px solid rgba(0,229,160,0.25);
+  }
+
+  .badge-amber {
+    background: rgba(255,181,71,0.12);
+    color: var(--amber);
+    border: 1px solid rgba(255,181,71,0.25);
+  }
+
+  .badge-cyan {
+    background: var(--cyan-dim);
+    color: var(--cyan);
+    border: 1px solid rgba(0,212,255,0.2);
+  }
+
+  .demo-expanded {
+    display: none;
+    padding: 1.25rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.8;
+  }
+
+  .demo-window.expanded .demo-collapsed { display: none; }
+  .demo-window.expanded .demo-expanded { display: block; }
 
   .terminal {
     background: var(--deep);
@@ -1081,16 +1198,48 @@
     </div>
   </div>
 
-  <!-- Terminal visual -->
+  <!-- Demo Window -->
   <div class="hero-visual">
-    <div class="terminal">
-      <div class="terminal-bar">
-        <div class="dot dot-r"></div>
-        <div class="dot dot-y"></div>
-        <div class="dot dot-g"></div>
-        <span class="terminal-title">marthyiam — provision.py</span>
+    <div class="demo-window" id="demoWidget">
+      <div class="demo-window-bar" onclick="toggleDemo()">
+        <div class="demo-bar-left">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <span class="demo-window-title">panel.marthyiam.com</span>
+        </div>
+        <span class="demo-expand-btn" id="expandBtn">↗ expandir</span>
       </div>
-      <div class="terminal-body">
+
+      <!-- Vista colapsada (resumen) -->
+      <div class="demo-collapsed">
+        <div class="demo-collapsed-row">
+          <span class="demo-icon">👤</span>
+          <span class="demo-row-text">Ana García — Alta completada</span>
+          <span class="demo-row-badge badge-green">✓ activo</span>
+        </div>
+        <div class="demo-collapsed-row">
+          <span class="demo-icon">⏳</span>
+          <span class="demo-row-text">Juan Pérez — Pendiente RRHH</span>
+          <span class="demo-row-badge badge-amber">en espera</span>
+        </div>
+        <div class="demo-collapsed-row">
+          <span class="demo-icon">🔐</span>
+          <span class="demo-row-text">Baja Carlos Soto — AD + SF</span>
+          <span class="demo-row-badge badge-cyan">procesando</span>
+        </div>
+        <div class="demo-collapsed-row">
+          <span class="demo-icon">📋</span>
+          <span class="demo-row-text">Ticket ProactivaNET #4822</span>
+          <span class="demo-row-badge badge-green">✓ creado</span>
+        </div>
+        <div style="padding: 0.5rem 0.85rem; font-size: 0.75rem; color: var(--text-dim); text-align: center;">
+          Haz click para ver el flujo completo ↗
+        </div>
+      </div>
+
+      <!-- Vista expandida (detalle) -->
+      <div class="demo-expanded">
         <div><span class="t-comment"># Alta de usuario — flujo automático</span></div>
         <div>&nbsp;</div>
         <div><span class="t-key">user</span> = {</div>
@@ -1481,6 +1630,14 @@
     }
     document.getElementById('formState').style.display = 'none';
     document.getElementById('successState').style.display = 'block';
+  }
+
+  // Demo window toggle
+  function toggleDemo() {
+    const w = document.getElementById('demoWidget');
+    const btn = document.getElementById('expandBtn');
+    w.classList.toggle('expanded');
+    btn.textContent = w.classList.contains('expanded') ? '↙ colapsar' : '↗ expandir';
   }
 
   // Scroll reveal
