@@ -8,24 +8,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink:       #0B0D11;
-    --deep:      #111318;
-    --surface:   #181C24;
-    --border:    #252A35;
-    --muted:     #3A4055;
-    --text-dim:  #7A85A0;
-    --text:      #C8D0E0;
-    --white:     #F0F4FF;
-    --cyan:      #00D4FF;
-    --cyan-dim:  rgba(0,212,255,0.12);
-    --cyan-glow: rgba(0,212,255,0.06);
-    --green:     #00E5A0;
-    --amber:     #FFB547;
+    --ink:       #14171F;
+    --deep:      #1A1E28;
+    --surface:   #1F2430;
+    --border:    #2A3140;
+    --muted:     #3D4558;
+    --text-dim:  #8B93AC;
+    --text:      #D3D8E6;
+    --white:     #F3F5FA;
+    --cyan:      #4F6BFF;
+    --cyan-dim:  rgba(79,107,255,0.14);
+    --cyan-glow: rgba(79,107,255,0.08);
+    --green:     #22C55E;
+    --amber:     #F5A524;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .ico { width: 1em; height: 1em; display: inline-block; vertical-align: -0.125em; }
 
-  html { scroll-behavior: smooth; background-color: #0B0D11 !important; }
+  html { scroll-behavior: smooth; background-color: #14171F !important; }
 
   body {
     background: var(--ink);
@@ -43,8 +44,8 @@
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      linear-gradient(rgba(79,107,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,107,255,0.03) 1px, transparent 1px);
     background-size: 48px 48px;
     pointer-events: none;
     z-index: 0;
@@ -125,7 +126,7 @@
     transform: translateX(-50%);
     width: 700px;
     height: 500px;
-    background: radial-gradient(ellipse at center, rgba(0,212,255,0.08) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(79,107,255,0.08) 0%, transparent 70%);
     pointer-events: none;
   }
 
@@ -202,9 +203,9 @@
   }
 
   .btn-primary:hover {
-    background: #33DDFF;
+    background: #6B84FF;
     transform: translateY(-1px);
-    box-shadow: 0 8px 32px rgba(0,212,255,0.25);
+    box-shadow: 0 8px 32px rgba(79,107,255,0.3);
   }
 
   .btn-ghost {
@@ -277,7 +278,7 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,212,255,0.08);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(79,107,255,0.08);
     transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
   }
 
@@ -312,7 +313,7 @@
     font-size: 0.68rem;
     color: var(--cyan);
     background: var(--cyan-dim);
-    border: 1px solid rgba(0,212,255,0.2);
+    border: 1px solid rgba(79,107,255,0.2);
     border-radius: 4px;
     padding: 0.2rem 0.5rem;
     cursor: pointer;
@@ -320,7 +321,7 @@
   }
 
   .demo-expand-btn:hover {
-    background: rgba(0,212,255,0.2);
+    background: rgba(79,107,255,0.2);
   }
 
   .demo-collapsed {
@@ -343,6 +344,8 @@
   .demo-icon {
     font-size: 1rem;
     flex-shrink: 0;
+    display: flex;
+    color: var(--text-dim);
   }
 
   .demo-row-text {
@@ -358,24 +361,27 @@
     padding: 0.15rem 0.45rem;
     border-radius: 4px;
     font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 
   .badge-green {
-    background: rgba(0,229,160,0.12);
+    background: rgba(34,197,94,0.12);
     color: var(--green);
-    border: 1px solid rgba(0,229,160,0.25);
+    border: 1px solid rgba(34,197,94,0.25);
   }
 
   .badge-amber {
-    background: rgba(255,181,71,0.12);
+    background: rgba(245,165,36,0.12);
     color: var(--amber);
-    border: 1px solid rgba(255,181,71,0.25);
+    border: 1px solid rgba(245,165,36,0.25);
   }
 
   .badge-cyan {
     background: var(--cyan-dim);
     color: var(--cyan);
-    border: 1px solid rgba(0,212,255,0.2);
+    border: 1px solid rgba(79,107,255,0.2);
   }
 
   .demo-expanded {
@@ -394,7 +400,7 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,212,255,0.08);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(79,107,255,0.08);
   }
 
   .terminal-bar {
@@ -567,11 +573,12 @@
     width: 44px; height: 44px;
     border-radius: 10px;
     background: var(--cyan-dim);
-    border: 1px solid rgba(0,212,255,0.2);
+    border: 1px solid rgba(79,107,255,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
+    color: var(--cyan);
     margin-bottom: 1.25rem;
   }
 
@@ -597,7 +604,7 @@
     font-size: 0.68rem;
     color: var(--cyan);
     background: var(--cyan-dim);
-    border: 1px solid rgba(0,212,255,0.15);
+    border: 1px solid rgba(79,107,255,0.15);
     padding: 0.2rem 0.55rem;
     border-radius: 4px;
     letter-spacing: 0.05em;
@@ -634,13 +641,13 @@
     transition: border-color 0.2s;
   }
 
-  .feature-list li:hover { border-color: rgba(0,212,255,0.25); }
+  .feature-list li:hover { border-color: rgba(79,107,255,0.25); }
 
   .check {
     width: 20px; height: 20px;
     border-radius: 50%;
-    background: rgba(0,229,160,0.12);
-    border: 1px solid rgba(0,229,160,0.3);
+    background: rgba(34,197,94,0.12);
+    border: 1px solid rgba(34,197,94,0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -753,7 +760,7 @@
   }
 
   .connector-pill.active {
-    border-color: rgba(0,212,255,0.3);
+    border-color: rgba(79,107,255,0.3);
     color: var(--cyan);
     background: var(--cyan-dim);
   }
@@ -800,7 +807,7 @@
 
   .step:hover .step-num {
     border-color: var(--cyan);
-    box-shadow: 0 0 20px rgba(0,212,255,0.15);
+    box-shadow: 0 0 20px rgba(79,107,255,0.15);
   }
 
   .step h3 {
@@ -835,13 +842,13 @@
   }
 
   .plan-card:hover {
-    border-color: rgba(0,212,255,0.2);
+    border-color: rgba(79,107,255,0.2);
     transform: translateY(-2px);
   }
 
   .plan-card.featured {
-    border-color: rgba(0,212,255,0.4);
-    background: linear-gradient(160deg, rgba(0,212,255,0.05) 0%, var(--deep) 60%);
+    border-color: rgba(79,107,255,0.4);
+    background: linear-gradient(160deg, rgba(79,107,255,0.05) 0%, var(--deep) 60%);
   }
 
   .featured-badge {
@@ -942,7 +949,7 @@
     transform: translateX(-50%);
     width: 600px;
     height: 300px;
-    background: radial-gradient(ellipse at bottom, rgba(0,212,255,0.1) 0%, transparent 70%);
+    background: radial-gradient(ellipse at bottom, rgba(79,107,255,0.1) 0%, transparent 70%);
     pointer-events: none;
   }
 
@@ -1020,7 +1027,7 @@
     transition: border-color 0.2s;
   }
 
-  .testimonio-card:hover { border-color: rgba(0,212,255,0.2); }
+  .testimonio-card:hover { border-color: rgba(79,107,255,0.2); }
 
   .testimonio-texto {
     font-size: 0.9rem;
@@ -1158,8 +1165,8 @@
   input::placeholder, textarea::placeholder { color: var(--muted); }
 
   input:focus, select:focus, textarea:focus {
-    border-color: rgba(0,212,255,0.5);
-    box-shadow: 0 0 0 3px rgba(0,212,255,0.08);
+    border-color: rgba(79,107,255,0.5);
+    box-shadow: 0 0 0 3px rgba(79,107,255,0.08);
   }
 
   select {
@@ -1187,6 +1194,9 @@
   .success-state .big-check {
     font-size: 3rem;
     margin-bottom: 1rem;
+    color: var(--green);
+    display: flex;
+    justify-content: center;
   }
 
   .success-state h4 {
@@ -1223,6 +1233,21 @@
 </style>
 </head>
 <body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ico-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="ico-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="ico-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="ico-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
+    <symbol id="ico-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="ico-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
+    <symbol id="ico-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+    <symbol id="ico-graduation" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></symbol>
+    <symbol id="ico-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></symbol>
+    <symbol id="ico-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  </defs>
+</svg>
 
 <!-- NAV -->
 <nav>
@@ -1262,7 +1287,7 @@
       <div class="trust-item"><span>·</span> OIDC / OAuth 2.0 / MFA</div>
     </div>
     <div style="margin-top:1.5rem;">
-      <span style="display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(90deg,#0036A3,#C00);color:#fff;font-weight:700;font-size:0.78rem;padding:0.4rem 1rem;border-radius:20px;letter-spacing:0.05em;">
+      <span style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--cyan-dim);border:1px solid rgba(79,107,255,0.3);color:var(--white);font-weight:600;font-size:0.78rem;padding:0.4rem 1rem;border-radius:20px;letter-spacing:0.05em;">
         <span style="font-size:0.9rem;">🇨🇱</span> PRIMERA SOLUCIÓN 100% CHILENA
       </span>
     </div>
@@ -1284,24 +1309,24 @@
       <!-- Vista colapsada (resumen) -->
       <div class="demo-collapsed">
         <div class="demo-collapsed-row">
-          <span class="demo-icon">👤</span>
+          <span class="demo-icon"><svg class="ico"><use href="#ico-user"/></svg></span>
           <span class="demo-row-text">Ana García — Alta completada</span>
-          <span class="demo-row-badge badge-green">✓ activo</span>
+          <span class="demo-row-badge badge-green"><svg class="ico"><use href="#ico-check-circle"/></svg> activo</span>
         </div>
         <div class="demo-collapsed-row">
-          <span class="demo-icon">⏳</span>
+          <span class="demo-icon"><svg class="ico"><use href="#ico-clock"/></svg></span>
           <span class="demo-row-text">Juan Pérez — Pendiente RRHH</span>
           <span class="demo-row-badge badge-amber">en espera</span>
         </div>
         <div class="demo-collapsed-row">
-          <span class="demo-icon">🔐</span>
+          <span class="demo-icon"><svg class="ico"><use href="#ico-lock"/></svg></span>
           <span class="demo-row-text">Baja Carlos Soto — AD + SF</span>
           <span class="demo-row-badge badge-cyan">procesando</span>
         </div>
         <div class="demo-collapsed-row">
-          <span class="demo-icon">📋</span>
+          <span class="demo-icon"><svg class="ico"><use href="#ico-clipboard"/></svg></span>
           <span class="demo-row-text">Ticket ProactivaNET #4822</span>
-          <span class="demo-row-badge badge-green">✓ creado</span>
+          <span class="demo-row-badge badge-green"><svg class="ico"><use href="#ico-check-circle"/></svg> creado</span>
         </div>
         <div style="padding: 0.5rem 0.85rem; font-size: 0.75rem; color: var(--text-dim); text-align: center;">
           Haz click para ver el flujo completo ↗
@@ -1378,28 +1403,28 @@
   </div>
   <div class="services-grid reveal">
     <div class="service-card">
-      <div class="service-icon">🎯</div>
+      <div class="service-icon"><svg class="ico"><use href="#ico-target"/></svg></div>
       <h3>Consultoría IAM</h3>
       <p>Diagnóstico de tu postura de identidades, diseño de arquitectura RBAC/ABAC
          y hoja de ruta de implementación adaptada a tu stack.</p>
       <span class="service-tag">strategy</span>
     </div>
     <div class="service-card">
-      <div class="service-icon">🚀</div>
+      <div class="service-icon"><svg class="ico"><use href="#ico-rocket"/></svg></div>
       <h3>Plataforma SaaS</h3>
       <p>Tu propio portal IAM multi-tenant con workflows de aprobación, conectores
          a AD, Salesforce y PostgreSQL, y panel de auditoría en tiempo real.</p>
       <span class="service-tag">saas · cloud</span>
     </div>
     <div class="service-card">
-      <div class="service-icon">🔧</div>
+      <div class="service-icon"><svg class="ico"><use href="#ico-wrench"/></svg></div>
       <h3>Implementación y soporte</h3>
       <p>Despliegue guiado, integración de tus sistemas existentes, capacitación
          del equipo y SLA de soporte mensual.</p>
       <span class="service-tag">onboarding · sla</span>
     </div>
     <div class="service-card">
-      <div class="service-icon">🎓</div>
+      <div class="service-icon"><svg class="ico"><use href="#ico-graduation"/></svg></div>
       <h3>Formación / Capacitación</h3>
       <p>Talleres prácticos de seguridad de identidades para tu equipo IT y de
          gestión: desde conceptos base hasta administración avanzada.</p>
@@ -1421,35 +1446,35 @@
   <div class="platform-layout reveal">
     <ul class="feature-list">
       <li>
-        <div class="check">✓</div>
+        <div class="check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
         <div>
           <strong>Alta/Baja/Modificación automática</strong>
           <span>Provisioning y deprovisioning en AD, Salesforce y PostgreSQL con un solo flujo.</span>
         </div>
       </li>
       <li>
-        <div class="check">✓</div>
+        <div class="check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
         <div>
           <strong>Workflows de aprobación configurables</strong>
           <span>Define cadenas de aprobación por área, equipo o persona. Con escalado automático.</span>
         </div>
       </li>
       <li>
-        <div class="check">✓</div>
+        <div class="check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
         <div>
           <strong>MFA y rotación de tokens</strong>
           <span>Autenticación multifactor TOTP, refresh token rotation y sesiones seguras.</span>
         </div>
       </li>
       <li>
-        <div class="check">✓</div>
+        <div class="check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
         <div>
           <strong>Auditoría completa e inmutable</strong>
           <span>Cada cambio registrado con autor, timestamp y motivo. Exportable para compliance.</span>
         </div>
       </li>
       <li>
-        <div class="check">✓</div>
+        <div class="check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
         <div>
           <strong>Integración ProactivaNET</strong>
           <span>Ticketing ITSM nativo con circuit breaker y reintentos automáticos.</span>
@@ -1639,7 +1664,7 @@
 <!-- MODAL DEMO -->
 <div class="modal-overlay" id="demoModal" onclick="handleOverlayClick(event)">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
+    <button class="modal-close" onclick="closeModal()"><svg class="ico"><use href="#ico-x"/></svg></button>
 
     <div id="formState">
       <h3>Agenda tu demo gratuita</h3>
@@ -1692,7 +1717,7 @@
     </div>
 
     <div class="success-state" id="successState">
-      <div class="big-check">✅</div>
+      <div class="big-check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
       <h4>¡Solicitud recibida!</h4>
       <p>Te contactaremos en menos de 24 horas para confirmar la fecha y hora de tu demo.</p>
     </div>
