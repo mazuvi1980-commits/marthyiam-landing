@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MarthyIAM — Gestión de Identidades para Empresas que Crecen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink:       #F7F9FD;
@@ -74,7 +74,7 @@
   }
 
   .logo {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-weight: 800;
     font-size: 1.25rem;
     color: var(--white);
@@ -137,32 +137,51 @@
     pointer-events: none;
   }
 
-  /* ── BLOB FIELD (lava-lamp style ambient bubbles) ── */
+  /* ── BLOB FIELD (fluid goo / lava-lamp ambient background) ── */
   .blob-field {
     position: absolute;
     inset: 0;
-    overflow: hidden;
     pointer-events: none;
   }
   .blob {
     position: absolute;
-    border-radius: 50%;
-    filter: blur(70px);
-    opacity: 0.32;
-    will-change: transform;
-    animation: blob-float 24s ease-in-out infinite;
+    filter: blur(5px);
+    opacity: 0.42;
+    mix-blend-mode: normal;
+    will-change: transform, border-radius;
   }
-  .blob-a { width: 380px; height: 380px; background: radial-gradient(circle, #0F62FE, transparent 70%); top: -90px; left: 4%; animation-duration: 25s; }
-  .blob-b { width: 320px; height: 320px; background: radial-gradient(circle, #00C2FF, transparent 70%); top: 28%; right: 6%; animation-duration: 19s; animation-delay: -6s; }
-  .blob-c { width: 300px; height: 300px; background: radial-gradient(circle, #7C3AED, transparent 70%); bottom: -70px; left: 28%; animation-duration: 28s; animation-delay: -12s; }
-  .blob-d { width: 230px; height: 230px; background: radial-gradient(circle, #34D399, transparent 70%); bottom: 6%; right: 24%; animation-duration: 21s; animation-delay: -3s; }
+  .blob-a { width: 300px; height: 300px; background: radial-gradient(circle, #0F62FE, #0F62FE 60%, transparent 78%); top: 12%; left: -4%; animation: drift-1 26s ease-in-out infinite, morph-1 14s ease-in-out infinite; }
+  .blob-b { width: 260px; height: 260px; background: radial-gradient(circle, #00C2FF, #00C2FF 60%, transparent 78%); top: 18%; right: -2%; animation: drift-2 21s ease-in-out infinite, morph-2 17s ease-in-out infinite; animation-delay: -6s, -3s; }
+  .blob-c { width: 240px; height: 240px; background: radial-gradient(circle, #7C3AED, #7C3AED 60%, transparent 78%); bottom: -2%; left: 16%; animation: drift-3 30s ease-in-out infinite, morph-1 19s ease-in-out infinite; animation-delay: -14s, -7s; }
+  .blob-d { width: 200px; height: 200px; background: radial-gradient(circle, #34D399, #34D399 60%, transparent 78%); bottom: 10%; right: 20%; animation: drift-1 23s ease-in-out infinite reverse, morph-2 15s ease-in-out infinite; animation-delay: -4s, -9s; }
+  .blob-e { width: 160px; height: 160px; background: radial-gradient(circle, #0F62FE, #0F62FE 60%, transparent 78%); bottom: -6%; right: 32%; animation: drift-2 27s ease-in-out infinite reverse, morph-1 16s ease-in-out infinite; animation-delay: -11s, -2s; }
+  .blob-f { width: 130px; height: 130px; background: radial-gradient(circle, #EC4899, #EC4899 60%, transparent 78%); top: 4%; right: 14%; animation: drift-3 19s ease-in-out infinite, morph-2 13s ease-in-out infinite; animation-delay: -8s, -5s; }
 
-  @keyframes blob-float {
-    0%   { transform: translate(0,0) scale(1); }
-    25%  { transform: translate(30px,-40px) scale(1.08); }
-    50%  { transform: translate(-25px,25px) scale(0.94); }
-    75%  { transform: translate(18px,38px) scale(1.05); }
-    100% { transform: translate(0,0) scale(1); }
+  @keyframes drift-1 {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33%      { transform: translate(60px,-50px) scale(1.15); }
+    66%      { transform: translate(-40px,40px) scale(0.88); }
+  }
+  @keyframes drift-2 {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    40%      { transform: translate(-70px,30px) scale(0.9); }
+    70%      { transform: translate(45px,55px) scale(1.12); }
+  }
+  @keyframes drift-3 {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    30%      { transform: translate(50px,45px) scale(1.1); }
+    65%      { transform: translate(-55px,-35px) scale(0.92); }
+  }
+  @keyframes morph-1 {
+    0%, 100% { border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%; }
+    25%      { border-radius: 65% 35% 40% 60% / 55% 65% 35% 45%; }
+    50%      { border-radius: 35% 65% 55% 45% / 40% 50% 50% 60%; }
+    75%      { border-radius: 55% 45% 35% 65% / 60% 40% 60% 40%; }
+  }
+  @keyframes morph-2 {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; }
+    33%      { border-radius: 40% 60% 65% 35% / 65% 35% 65% 35%; }
+    66%      { border-radius: 50% 50% 45% 55% / 35% 55% 45% 65%; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -195,11 +214,11 @@
   }
 
   h1 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-weight: 800;
-    font-size: clamp(2.4rem, 5.2vw, 4.4rem);
-    line-height: 1.05;
-    letter-spacing: -0.03em;
+    font-size: clamp(2rem, 3.4vw, 3.15rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
     color: var(--white);
     margin-bottom: 1.5rem;
   }
@@ -525,7 +544,7 @@
   }
 
   h2 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-weight: 700;
     font-size: clamp(1.8rem, 3.5vw, 2.6rem);
     color: var(--white);
@@ -607,13 +626,16 @@
   .service-card {
     background: var(--deep);
     padding: 2rem;
-    transition: background 0.2s;
+    transition: background 0.25s, transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
     position: relative;
     overflow: hidden;
   }
 
   .service-card:hover {
     background: var(--surface);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(15,98,254,0.1);
+    z-index: 2;
   }
 
   .service-card::before {
@@ -642,7 +664,7 @@
   }
 
   .service-card h3 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-weight: 700;
     font-size: 1.05rem;
     color: var(--white);
@@ -882,7 +904,7 @@
   }
 
   .step h3 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-weight: 700;
     color: var(--white);
     font-size: 0.95rem;
@@ -938,7 +960,7 @@
   }
 
   .plan-name {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-weight: 700;
     font-size: 1rem;
     color: var(--white);
@@ -1054,7 +1076,7 @@
   }
 
   .footer-logo {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-weight: 800;
     font-size: 1.1rem;
     color: var(--white);
@@ -1193,7 +1215,7 @@
   .modal-close:hover { color: var(--white); }
 
   .modal h3 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-weight: 700;
     font-size: 1.4rem;
     color: var(--white);
@@ -1272,7 +1294,7 @@
   }
 
   .success-state h4 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Archivo', sans-serif;
     font-weight: 700;
     color: var(--white);
     font-size: 1.2rem;
@@ -1287,14 +1309,28 @@
   /* ── SCROLL ANIMATIONS ── */
   .reveal {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
   }
 
   .reveal.visible {
     opacity: 1;
     transform: translateY(0);
   }
+
+  .reveal > .service-card, .reveal > .plan-card, .reveal > .testimonio-card, .reveal > .step {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.visible > .service-card, .reveal.visible > .plan-card, .reveal.visible > .testimonio-card, .reveal.visible > .step {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal > .service-card:nth-child(1), .reveal > .plan-card:nth-child(1), .reveal > .testimonio-card:nth-child(1), .reveal > .step:nth-child(1) { transition-delay: 0.05s; }
+  .reveal > .service-card:nth-child(2), .reveal > .plan-card:nth-child(2), .reveal > .testimonio-card:nth-child(2), .reveal > .step:nth-child(2) { transition-delay: 0.14s; }
+  .reveal > .service-card:nth-child(3), .reveal > .plan-card:nth-child(3), .reveal > .testimonio-card:nth-child(3), .reveal > .step:nth-child(3) { transition-delay: 0.23s; }
+  .reveal > .service-card:nth-child(4), .reveal > .plan-card:nth-child(4), .reveal > .testimonio-card:nth-child(4), .reveal > .step:nth-child(4) { transition-delay: 0.32s; }
 
   @media (max-width: 600px) {
     nav ul { display: none; }
@@ -1318,6 +1354,10 @@
     <symbol id="ico-graduation" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></symbol>
     <symbol id="ico-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></symbol>
     <symbol id="ico-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <filter id="goo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo"/>
+    </filter>
   </defs>
 </svg>
 
@@ -1340,6 +1380,8 @@
     <div class="blob blob-b"></div>
     <div class="blob blob-c"></div>
     <div class="blob blob-d"></div>
+    <div class="blob blob-e"></div>
+    <div class="blob blob-f"></div>
   </div>
   <div class="hero-inner">
     <div class="eyebrow">Identity &amp; Access Management</div>
@@ -1470,7 +1512,12 @@
 </div>
 
 <!-- SERVICIOS -->
-<section id="servicios">
+<section id="servicios" style="overflow:hidden">
+  <div class="blob-field" style="opacity:0.6">
+    <div class="blob blob-b" style="width:220px;height:220px;"></div>
+    <div class="blob blob-e" style="width:170px;height:170px;"></div>
+    <div class="blob blob-f" style="width:140px;height:140px;"></div>
+  </div>
   <div class="reveal">
     <div class="section-label">// servicios</div>
     <h2>Lo que hacemos por ti</h2>
@@ -1630,7 +1677,11 @@
 </section>
 
 <!-- PRECIOS -->
-<section id="precios" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+<section id="precios" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow:hidden;">
+  <div class="blob-field" style="opacity:0.55">
+    <div class="blob blob-a" style="width:240px;height:240px;"></div>
+    <div class="blob blob-d" style="width:180px;height:180px;"></div>
+  </div>
   <div class="reveal" style="text-align: center;">
     <div class="section-label">// precios</div>
     <h2>Transparente desde el inicio</h2>
@@ -1718,6 +1769,8 @@
     <div class="blob blob-a" style="width:260px;height:260px;"></div>
     <div class="blob blob-c" style="width:220px;height:220px;"></div>
     <div class="blob blob-d" style="width:180px;height:180px;"></div>
+    <div class="blob blob-e" style="width:150px;height:150px;"></div>
+    <div class="blob blob-f" style="width:130px;height:130px;"></div>
   </div>
   <div class="section-label">// demo gratuita</div>
   <h2>¿Tu equipo IT sigue gestionando<br>accesos a mano?</h2>
