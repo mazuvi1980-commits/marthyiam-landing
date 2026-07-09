@@ -1,76 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 160" width="480" height="160">
   <defs>
-    <!-- Gradiente principal azul profundo a índigo -->
-    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0F2A6E;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#1A3FA6;stop-opacity:1" />
+    <!-- Gradiente principal azul a cian (lazo infinito) -->
+    <linearGradient id="loopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F62FE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00C2FF;stop-opacity:1" />
     </linearGradient>
-    <!-- Gradiente acento verde esmeralda (seguridad/verificado) -->
-    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#00C9A7;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#00A88E;stop-opacity:1" />
+    <linearGradient id="loopGradSoft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F62FE;stop-opacity:0.55" />
+      <stop offset="100%" style="stop-color:#00C2FF;stop-opacity:0.55" />
     </linearGradient>
-    <!-- Brillo del escudo -->
-    <linearGradient id="shieldShine" x1="0%" y1="0%" x2="60%" y2="100%">
-      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.12" />
-      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
-    </linearGradient>
-    <!-- Sombra suave -->
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
-      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.4"/>
-    </filter>
-    <!-- Glow acento -->
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
 
   <!-- ══════════════════════════════════════════ -->
-  <!-- ÍCONO: Escudo con figura M y candado      -->
+  <!-- ÍCONO: Lazo infinito (flujo continuo de identidad) -->
   <!-- ══════════════════════════════════════════ -->
-
-  <!-- Escudo principal -->
-  <g filter="url(#shadow)">
-    <path d="M80 18 L118 28 L118 80 Q118 112 80 128 Q42 112 42 80 L42 28 Z"
-          fill="url(#shieldGrad)" />
-    <!-- Brillo interior -->
-    <path d="M80 18 L118 28 L118 80 Q118 112 80 128 Q42 112 42 80 L42 28 Z"
-          fill="url(#shieldShine)" />
-    <!-- Borde escudo acento -->
-    <path d="M80 18 L118 28 L118 80 Q118 112 80 128 Q42 112 42 80 L42 28 Z"
-          fill="none" stroke="#00C9A7" stroke-width="2" opacity="0.6"/>
-  </g>
-
-  <!-- Letra M estilizada dentro del escudo -->
-  <g filter="url(#glow)">
-    <path d="M57 95 L57 55 L80 78 L103 55 L103 95"
-          fill="none" stroke="#ffffff" stroke-width="5"
-          stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
-
-  <!-- Candado pequeño en esquina inferior derecha del escudo -->
-  <g transform="translate(95, 95)">
-    <!-- Cuerpo candado -->
-    <rect x="0" y="5" width="16" height="12" rx="2" fill="#00C9A7"/>
-    <!-- Arco candado -->
-    <path d="M3 5 Q3 -1 8 -1 Q13 -1 13 5"
-          fill="none" stroke="#00C9A7" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- Ojo candado -->
-    <circle cx="8" cy="11" r="2" fill="#0F2A6E"/>
-  </g>
-
-  <!-- Punto de acento decorativo (nodo de red) -->
-  <circle cx="42" cy="28" r="3" fill="#00C9A7" opacity="0.8"/>
-  <circle cx="118" cy="28" r="3" fill="#00C9A7" opacity="0.8"/>
-  <circle cx="80" cy="18" r="3" fill="#00C9A7" opacity="0.8"/>
-
-  <!-- Líneas de conexión tipo red/nodo (concepto IAM) -->
-  <line x1="42" y1="28" x2="80" y2="18" stroke="#00C9A7" stroke-width="1" opacity="0.4"/>
-  <line x1="80" y1="18" x2="118" y2="28" stroke="#00C9A7" stroke-width="1" opacity="0.4"/>
+  <circle cx="62" cy="73" r="32" fill="none" stroke="url(#loopGrad)" stroke-width="14"/>
+  <circle cx="102" cy="73" r="32" fill="none" stroke="url(#loopGradSoft)" stroke-width="14"/>
 
   <!-- ══════════════════════════════════════════ -->
   <!-- TIPOGRAFÍA (versión oscura para fondo claro) -->
@@ -85,7 +30,7 @@
         fill="#101A33">Marthy</text>
 
   <!-- Separador vertical acento -->
-  <rect x="310" y="52" width="2.5" height="36" rx="1.5" fill="#00C9A7"/>
+  <rect x="310" y="52" width="2.5" height="36" rx="1.5" fill="url(#loopGrad)"/>
 
   <!-- IAM -->
   <text x="320" y="85"
@@ -93,7 +38,7 @@
         font-size="46"
         font-weight="800"
         letter-spacing="2"
-        fill="#00C9A7">IAM</text>
+        fill="#0F62FE">IAM</text>
 
   <!-- Tagline -->
   <text x="149" y="108"
@@ -104,5 +49,5 @@
         fill="#5B6B8F">IDENTITY · ACCESS · SECURITY</text>
 
   <!-- Línea decorativa bajo tagline -->
-  <rect x="149" y="115" width="280" height="1.5" rx="1" fill="url(#accentGrad)" opacity="0.4"/>
+  <rect x="149" y="115" width="280" height="1.5" rx="1" fill="url(#loopGrad)" opacity="0.4"/>
 </svg>
