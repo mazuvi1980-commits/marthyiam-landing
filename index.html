@@ -1668,6 +1668,9 @@
       Sin costos ocultos ni licencias por usuario infladas.
       Elige el plan que se adapta a tu etapa.
     </p>
+    <div style="margin-top:1.5rem;">
+      <a href="#" class="btn-ghost" onclick="openCotizacionModal(event)">Solicitar cotización personalizada →</a>
+    </div>
   </div>
   <div class="pricing-grid reveal">
     <div class="plan-card">
@@ -1710,7 +1713,7 @@
         <li>SLA personalizado 24/7</li>
         <li>Desarrollo de conectores custom</li>
       </ul>
-      <a href="#" class="btn-ghost" style="display:block; text-align:center;" onclick="openModal(event)">Hablar con un experto →</a>
+      <a href="#" class="btn-ghost" style="display:block; text-align:center;" onclick="openCotizacionModal(event)">Solicitar cotización →</a>
     </div>
   </div>
 </section>
@@ -1846,6 +1849,77 @@
   </div>
 </div>
 
+<!-- MODAL COTIZACIÓN -->
+<div class="modal-overlay" id="cotizacionModal" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeCotizacionModal()"><svg class="ico"><use href="#ico-x"/></svg></button>
+
+    <div id="cotizacionFormState">
+      <h3>Solicita tu cotización</h3>
+      <p class="modal-sub">
+        Cuéntanos sobre tu empresa y te enviamos una propuesta a medida
+        en menos de 48 horas.
+      </p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" id="cotName" placeholder="Ana García">
+        </div>
+        <div class="form-group">
+          <label>Empresa</label>
+          <input type="text" id="cotCompany" placeholder="Mi Empresa S.A.">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email corporativo</label>
+          <input type="email" id="cotEmail" placeholder="ana@miempresa.com">
+        </div>
+        <div class="form-group">
+          <label>Teléfono (opcional)</label>
+          <input type="tel" id="cotPhone" placeholder="+56 9 1234 5678">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>¿Cuántos usuarios gestionas? (aprox.)</label>
+          <select id="cotSize">
+            <option value="" disabled selected>Selecciona...</option>
+            <option>1 – 25 usuarios</option>
+            <option>26 – 100 usuarios</option>
+            <option>101 – 500 usuarios</option>
+            <option>Más de 500</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Plan de interés</label>
+          <select id="cotPlan">
+            <option value="" disabled selected>Selecciona...</option>
+            <option>Starter</option>
+            <option>Business</option>
+            <option>Enterprise</option>
+            <option>No estoy seguro</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Cuéntanos sobre tu proyecto (opcional)</label>
+        <textarea id="cotNotes" placeholder="Ej: sistemas a integrar, plazos, requisitos de compliance..."></textarea>
+      </div>
+      <button class="btn-primary" onclick="submitCotizacionForm()">
+        Enviar solicitud de cotización →
+      </button>
+    </div>
+
+    <div class="success-state" id="cotizacionSuccessState">
+      <div class="big-check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
+      <h4>¡Solicitud recibida!</h4>
+      <p>Nuestro equipo revisará tu información y te enviará una cotización a tu correo en menos de 48 horas.</p>
+    </div>
+  </div>
+</div>
+
 <script>
   // Modal
   function openModal(e) {
@@ -1860,11 +1934,17 @@
   }
 
   function handleOverlayClick(e) {
-    if (e.target === document.getElementById('demoModal')) closeModal();
+    if (e.target === e.currentTarget) {
+      e.currentTarget.classList.remove('active');
+      document.body.style.overflow = '';
+    }
   }
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+      document.body.style.overflow = '';
+    }
   });
 
   function submitForm() {
@@ -1876,6 +1956,30 @@
     }
     document.getElementById('formState').style.display = 'none';
     document.getElementById('successState').style.display = 'block';
+  }
+
+  // Modal cotización
+  function openCotizacionModal(e) {
+    e.preventDefault();
+    document.getElementById('cotizacionModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCotizacionModal() {
+    document.getElementById('cotizacionModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function submitCotizacionForm() {
+    const email   = document.getElementById('cotEmail').value.trim();
+    const name    = document.getElementById('cotName').value.trim();
+    const company = document.getElementById('cotCompany').value.trim();
+    if (!name || !email || !company) {
+      alert('Por favor completa al menos tu nombre, empresa y email.');
+      return;
+    }
+    document.getElementById('cotizacionFormState').style.display = 'none';
+    document.getElementById('cotizacionSuccessState').style.display = 'block';
   }
 
   // Demo window toggle
