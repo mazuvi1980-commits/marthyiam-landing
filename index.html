@@ -115,6 +115,51 @@
   }
   .nav-cta:hover { opacity: 0.85; color: var(--ink) !important; }
 
+  /* ── NAV MOBILE TOGGLE ── */
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--white);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .nav-toggle:hover { border-color: var(--cyan); }
+  .nav-toggle .ico { width: 18px; height: 18px; }
+  .nav-toggle-close { display: none; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-open { display: none; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-close { display: block; }
+
+  @media (max-width: 860px) {
+    .nav-toggle { display: flex; }
+
+    nav ul {
+      position: fixed;
+      top: 80px;
+      left: 0; right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: rgba(20,23,31,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5vw;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    nav ul.open { max-height: 420px; padding: 0.5rem 5vw 1.25rem; }
+    nav ul li { width: 100%; }
+    nav ul a { display: block; padding: 0.9rem 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+    nav ul li:last-child a { border-bottom: none; }
+    nav ul .nav-cta { display: inline-flex; margin-top: 0.85rem; padding: 0.7rem 1.1rem; }
+  }
+
   /* ── HERO ── */
   .hero {
     position: relative;
@@ -1312,7 +1357,6 @@
   .reveal > .service-card:nth-child(4), .reveal > .plan-card:nth-child(4), .reveal > .testimonio-card:nth-child(4), .reveal > .step:nth-child(4) { transition-delay: 0.32s; }
 
   @media (max-width: 600px) {
-    nav ul { display: none; }
     .steps-row::before { display: none; }
     .form-row { grid-template-columns: 1fr; }
     .stats-body { grid-template-columns: 1fr; }
@@ -1343,12 +1387,16 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="logo logo-with-img"><img src="/logo.svg?v=3" alt="MarthyIAM" class="logo-img"></a>
-  <ul>
-    <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#plataforma">Plataforma</a></li>
-    <li><a href="#como-funciona">Proceso</a></li>
-    <li><a href="#precios">Precios</a></li>
-    <li><a href="#" class="nav-cta" onclick="openModal(event)">Agendar demo →</a></li>
+  <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navMenu" onclick="toggleNav()">
+    <svg class="ico nav-toggle-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <svg class="ico nav-toggle-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <ul id="navMenu">
+    <li><a href="#servicios" onclick="closeNav()">Servicios</a></li>
+    <li><a href="#plataforma" onclick="closeNav()">Plataforma</a></li>
+    <li><a href="#como-funciona" onclick="closeNav()">Proceso</a></li>
+    <li><a href="#precios" onclick="closeNav()">Precios</a></li>
+    <li><a href="#" class="nav-cta" onclick="openModal(event); closeNav();">Agendar demo →</a></li>
   </ul>
 </nav>
 
@@ -1847,6 +1895,18 @@
 </div>
 
 <script>
+  // Mobile nav
+  function toggleNav() {
+    const menu = document.getElementById('navMenu');
+    const btn = document.getElementById('navToggle');
+    const open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  function closeNav() {
+    document.getElementById('navMenu').classList.remove('open');
+    document.getElementById('navToggle').setAttribute('aria-expanded', 'false');
+  }
+
   // Modal
   function openModal(e) {
     e.preventDefault();
@@ -1864,7 +1924,7 @@
   }
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Escape') { closeModal(); closeNav(); }
   });
 
   function submitForm() {
