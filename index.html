@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('marthyiam-theme');
+      if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    } catch (e) {}
+  })();
+</script>
 <title>MarthyIAM — Gestión de Identidades para Empresas que Crecen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -28,12 +36,32 @@
     --dw-text-dim:#838DA6;
     --dw-accent: #6E93FF;
     --dw-amber:  #FBBF24;
+    --shadow-card: 0 1px 2px rgba(0,0,0,0.3);
+    --nav-bg:    rgba(20,23,31,0.85);
+    --nav-bg-solid: rgba(20,23,31,0.98);
+  }
+
+  /* Light theme — same accent/semantic colors, neutrals inverted.
+     --ink/--white swap roles (page-bg vs highest-contrast text) so every
+     existing rule that references them keeps working unchanged. */
+  :root[data-theme="light"] {
+    --ink:       #FBFCFE;
+    --deep:      #FFFFFF;
+    --surface:   #F1F3F8;
+    --border:    #E2E6EF;
+    --muted:     #C7CDDA;
+    --text-dim:  #5B6478;
+    --text:      #29303F;
+    --white:     #12151D;
+    --shadow-card: 0 1px 2px rgba(20,30,50,0.06), 0 1px 12px rgba(20,30,50,0.04);
+    --nav-bg:    rgba(255,255,255,0.85);
+    --nav-bg-solid: rgba(255,255,255,0.98);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   .ico { width: 1em; height: 1em; display: inline-block; vertical-align: -0.125em; }
 
-  html { scroll-behavior: smooth; background-color: #14171F !important; }
+  html { scroll-behavior: smooth; background-color: var(--ink) !important; }
 
   body {
     background: var(--ink);
@@ -43,7 +71,12 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
+
+  /* Decorative bubble particles are tuned to glow on a dark background —
+     hide them in light mode rather than retheme every bubble. */
+  :root[data-theme="light"] .bubble-field { display: none; }
 
   /* ── GRID NOISE TEXTURE ── */
   body::before {
@@ -68,9 +101,10 @@
     justify-content: space-between;
     padding: 0 5vw;
     height: 80px;
-    background: rgba(20,23,31,0.85);
+    background: var(--nav-bg);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
+    transition: background-color 0.25s ease;
   }
 
   .logo {
@@ -115,6 +149,29 @@
   }
   .nav-cta:hover { opacity: 0.85; color: var(--ink) !important; }
 
+  .nav-right { display: flex; align-items: center; gap: 0.6rem; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .theme-toggle:hover { border-color: var(--cyan); color: var(--white); }
+  .theme-toggle .ico { width: 18px; height: 18px; }
+  .theme-icon-moon { display: none; }
+  html[data-theme="light"] .theme-icon-sun { display: none; }
+  html[data-theme="light"] .theme-icon-moon { display: block; }
+
   /* ── NAV MOBILE TOGGLE ── */
   .nav-toggle {
     display: none;
@@ -122,6 +179,7 @@
     justify-content: center;
     width: 40px;
     height: 40px;
+    flex-shrink: 0;
     background: transparent;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -145,7 +203,7 @@
       flex-direction: column;
       align-items: stretch;
       gap: 0;
-      background: rgba(20,23,31,0.98);
+      background: var(--nav-bg-solid);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 5vw;
@@ -954,7 +1012,8 @@
     border-radius: 12px;
     padding: 2rem;
     position: relative;
-    transition: border-color 0.2s, transform 0.2s;
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   }
 
   .plan-card:hover {
@@ -1142,6 +1201,7 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.75rem;
+    box-shadow: var(--shadow-card);
     transition: border-color 0.2s;
   }
 
@@ -1387,17 +1447,23 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="logo logo-with-img"><img src="/logo.svg?v=3" alt="MarthyIAM" class="logo-img"></a>
-  <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navMenu" onclick="toggleNav()">
-    <svg class="ico nav-toggle-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    <svg class="ico nav-toggle-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  </button>
-  <ul id="navMenu">
-    <li><a href="#servicios" onclick="closeNav()">Servicios</a></li>
-    <li><a href="#plataforma" onclick="closeNav()">Plataforma</a></li>
-    <li><a href="#como-funciona" onclick="closeNav()">Proceso</a></li>
-    <li><a href="#precios" onclick="closeNav()">Precios</a></li>
-    <li><a href="#" class="nav-cta" onclick="openModal(event); closeNav();">Agendar demo →</a></li>
-  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambiar a modo claro" onclick="toggleTheme()">
+      <svg class="ico theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="ico theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+    </button>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navMenu" onclick="toggleNav()">
+      <svg class="ico nav-toggle-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="ico nav-toggle-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <ul id="navMenu">
+      <li><a href="#servicios" onclick="closeNav()">Servicios</a></li>
+      <li><a href="#plataforma" onclick="closeNav()">Plataforma</a></li>
+      <li><a href="#como-funciona" onclick="closeNav()">Proceso</a></li>
+      <li><a href="#precios" onclick="closeNav()">Precios</a></li>
+      <li><a href="#" class="nav-cta" onclick="openModal(event); closeNav();">Agendar demo →</a></li>
+    </ul>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -1895,6 +1961,26 @@
 </div>
 
 <script>
+  // Theme toggle
+  function updateThemeToggleLabel() {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    document.getElementById('themeToggle').setAttribute(
+      'aria-label', isLight ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'
+    );
+  }
+  function toggleTheme() {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      document.documentElement.removeAttribute('data-theme');
+      try { localStorage.setItem('marthyiam-theme', 'dark'); } catch (e) {}
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      try { localStorage.setItem('marthyiam-theme', 'light'); } catch (e) {}
+    }
+    updateThemeToggleLabel();
+  }
+  updateThemeToggleLabel();
+
   // Mobile nav
   function toggleNav() {
     const menu = document.getElementById('navMenu');
