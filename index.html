@@ -18,41 +18,43 @@
 <meta property="og:description" content="Intranets, apps, sistemas de gestión y automatización de procesos. Convertimos tus procesos en aplicaciones que tu equipo sí usa.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=12">
-<link rel="stylesheet" href="/assets/scenes.css?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=14">
+<link rel="stylesheet" href="/assets/scenes.css?v=4">
 <noscript><style>.reveal{opacity:1!important;transform:none!important}.cv{transform:scale(.4)!important}</style></noscript>
 </head>
 <body>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
 <!-- Íconos (sprite SVG, sin dependencias externas) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
-    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
-    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
-    <symbol id="i-chef" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></symbol>
-    <symbol id="i-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
-    <symbol id="i-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></symbol>
-    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
-    <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
-    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
-    <symbol id="i-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/></symbol>
-    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></symbol>
-    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
-    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
-    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
-    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
-    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
-    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
-    <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
-    <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
-    <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
+    <symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1.5" fill="currentColor" fill-opacity=".22"/><rect width="7" height="5" x="14" y="3" rx="1.5"/><rect width="7" height="9" x="14" y="12" rx="1.5" fill="currentColor" fill-opacity=".22"/><rect width="7" height="5" x="3" y="16" rx="1.5"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" fill="currentColor" fill-opacity=".14"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2.5" fill="currentColor" fill-opacity=".18"/><path d="M12 18h.01"/></symbol>
+    <symbol id="i-chef" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z" fill="currentColor" fill-opacity=".2"/><path d="M6 17h12"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" fill="currentColor" fill-opacity=".2"/></symbol>
+    <symbol id="i-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1.2" fill="currentColor" fill-opacity=".22"/><rect x="2" y="16" width="6" height="6" rx="1.2" fill="currentColor" fill-opacity=".22"/><rect x="9" y="2" width="6" height="6" rx="1.2" fill="currentColor" fill-opacity=".22"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" fill="currentColor" fill-opacity=".2"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" fill="currentColor" fill-opacity=".25"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><rect x="7" y="13" width="3" height="5" rx=".8" fill="currentColor" fill-opacity=".28"/><rect x="12" y="8" width="3" height="10" rx=".8" fill="currentColor" fill-opacity=".28"/><rect x="17" y="11" width="3" height="7" rx=".8" fill="currentColor" fill-opacity=".28"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" fill="currentColor" fill-opacity=".25"/><path d="M20 3v4"/><path d="M22 5h-4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" fill="currentColor" fill-opacity=".14" stroke="none"/><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" fill="currentColor" fill-opacity=".14"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2.5" fill="currentColor" fill-opacity=".2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4" fill="currentColor" fill-opacity=".22"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" fill="currentColor" fill-opacity=".18"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" fill="currentColor" fill-opacity=".2"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3" fill="currentColor" fill-opacity=".25"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" fill="currentColor" fill-opacity=".24"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" fill="currentColor" fill-opacity=".2"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
-    <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
-    <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
-    <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
-    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
+    <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" fill="currentColor" fill-opacity=".24"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1.5" fill="currentColor" fill-opacity=".24"/><rect width="7" height="7" x="14" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="14" rx="1.5" fill="currentColor" fill-opacity=".24"/><rect width="7" height="7" x="3" y="14" rx="1.5"/></symbol>
+    <symbol id="i-plug" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z" fill="currentColor" fill-opacity=".22"/></symbol>
   </defs>
 </svg>
 
@@ -97,7 +99,7 @@
   <div class="wrap hero-grid">
     <div>
       <span class="pill-label"><span class="pd"></span>Desarrollo de software a medida</span>
-      <h1>Convertimos tus procesos en <span class="grad-text">aplicaciones</span> que tu equipo sí usa</h1>
+      <h1>Convertimos tus procesos en <em>aplicaciones</em> que tu equipo sí usa</h1>
       <p class="hero-sub">
         Intranets corporativas, sitios web, apps a medida, sistemas de gestión para restaurantes y talleres,
         y herramientas para administrar Active Directory e identidades. Un mismo equipo las diseña, las construye y las pone en marcha.
@@ -177,8 +179,8 @@
 <!-- MARQUEE -->
 <div class="marquee" aria-hidden="true">
   <div class="track">
-    <span>Intranets corporativas</span><span>Apps a medida</span><span>Sistemas para restaurantes</span><span>Gestión de talleres</span><span>Active Directory</span><span>Gestión de identidades</span><span>Dashboards gerenciales</span><span>Automatización de procesos</span><span>Sitios web</span><span>Aplicaciones móviles</span><span>Integraciones ERP · ITSM · CRM</span><span>IA aplicada</span>
-    <span>Intranets corporativas</span><span>Apps a medida</span><span>Sistemas para restaurantes</span><span>Gestión de talleres</span><span>Active Directory</span><span>Gestión de identidades</span><span>Dashboards gerenciales</span><span>Automatización de procesos</span><span>Sitios web</span><span>Aplicaciones móviles</span><span>Integraciones ERP · ITSM · CRM</span><span>IA aplicada</span>
+    <span><svg class="ico"><use href="#i-layout"/></svg>Intranets corporativas</span><span><svg class="ico"><use href="#i-phone"/></svg>Apps a medida</span><span><svg class="ico"><use href="#i-chef"/></svg>Sistemas para restaurantes</span><span><svg class="ico"><use href="#i-wrench"/></svg>Gestión de talleres</span><span><svg class="ico"><use href="#i-network"/></svg>Active Directory</span><span><svg class="ico"><use href="#i-shield"/></svg>Gestión de identidades</span><span><svg class="ico"><use href="#i-chart"/></svg>Dashboards gerenciales</span><span><svg class="ico"><use href="#i-zap"/></svg>Automatización de procesos</span><span><svg class="ico"><use href="#i-globe"/></svg>Sitios web</span><span><svg class="ico"><use href="#i-layers"/></svg>Aplicaciones móviles</span><span><svg class="ico"><use href="#i-plug"/></svg>Integraciones ERP · ITSM · CRM</span><span><svg class="ico"><use href="#i-sparkles"/></svg>IA aplicada</span>
+    <span><svg class="ico"><use href="#i-layout"/></svg>Intranets corporativas</span><span><svg class="ico"><use href="#i-phone"/></svg>Apps a medida</span><span><svg class="ico"><use href="#i-chef"/></svg>Sistemas para restaurantes</span><span><svg class="ico"><use href="#i-wrench"/></svg>Gestión de talleres</span><span><svg class="ico"><use href="#i-network"/></svg>Active Directory</span><span><svg class="ico"><use href="#i-shield"/></svg>Gestión de identidades</span><span><svg class="ico"><use href="#i-chart"/></svg>Dashboards gerenciales</span><span><svg class="ico"><use href="#i-zap"/></svg>Automatización de procesos</span><span><svg class="ico"><use href="#i-globe"/></svg>Sitios web</span><span><svg class="ico"><use href="#i-layers"/></svg>Aplicaciones móviles</span><span><svg class="ico"><use href="#i-plug"/></svg>Integraciones ERP · ITSM · CRM</span><span><svg class="ico"><use href="#i-sparkles"/></svg>IA aplicada</span>
   </div>
 </div>
 
@@ -186,8 +188,8 @@
 <section class="section" id="soluciones">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="pill-label">Soluciones</span>
-      <h2>Lo que desarrollamos para tu empresa</h2>
+      <div class="sec-index"><b>01</b><span>Soluciones</span></div>
+      <h2>Lo que <em>desarrollamos</em> para tu empresa</h2>
       <p class="section-intro">Desde un sitio web hasta un sistema completo de gestión: elegimos la herramienta que calza con tu operación, no al revés.</p>
     </div>
     <div class="bento reveal">
@@ -205,7 +207,7 @@
         <span class="tag">web · marca</span>
       </article>
       <article class="gc spot bx">
-        <div class="icon-chip"><svg class="ico"><use href="#i-phone"/></svg></div>
+        <div class="icon-chip v"><svg class="ico"><use href="#i-phone"/></svg></div>
         <h3>Apps a medida</h3>
         <p>Aplicaciones web y móviles con roles, reportes y exportación a Excel y PDF.</p>
         <span class="tag">web · pwa · móvil</span>
@@ -237,7 +239,7 @@
         <span class="tag">seguridad · accesos</span>
       </article>
       <article class="gc spot bx s2">
-        <div class="icon-chip"><svg class="ico"><use href="#i-zap"/></svg></div>
+        <div class="icon-chip v"><svg class="ico"><use href="#i-zap"/></svg></div>
         <h3>Automatización e innovación</h3>
         <p>Convertimos macros y planillas en aplicaciones, armamos dashboards, alertas e integraciones, y aplicamos IA donde aporta valor.</p>
         <div class="bx-vis"><div class="bv-flow"><b>Excel</b><span class="ar"><svg class="ico"><use href="#i-arrow"/></svg></span><b>App</b><span class="ar"><svg class="ico"><use href="#i-arrow"/></svg></span><b>Dashboard</b><span class="ar"><svg class="ico"><use href="#i-arrow"/></svg></span><b>Alertas</b></div></div>
@@ -261,8 +263,8 @@
 <section class="section alt" id="desarrollos">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="pill-label">Desarrollos</span>
-      <h2>Aplicaciones que ya están funcionando</h2>
+      <div class="sec-index"><b>02</b><span>Desarrollos</span></div>
+      <h2>Aplicaciones que ya están <em>funcionando</em></h2>
       <p class="section-intro">Una muestra de lo que construimos. Cada una nació de un problema real y hoy se usa en el día a día.</p>
     </div>
 
@@ -382,15 +384,15 @@
                 <div class="main">
                   <div class="hd"><div><h4>Reparaciones</h4><small>9 vehículos en el taller</small></div><div class="r"><span class="btn-m">Cotizaciones</span><span class="btn-m pri">+ Nueva orden</span></div></div>
                   <div class="kan">
-                    <div><h6 style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#7C86A3;margin-bottom:8px">Ingresado · 3</h6>
+                    <div><h6 style="font:600 10px/1 'Geist Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#7C86A3;margin-bottom:8px">Ingresado · 3</h6>
                       <div class="carc"><span class="plate">KLMN45</span><div class="v">Chevrolet Sail 2019</div><div class="s">Ruido en el tren delantero</div><div class="f"><span class="av t" style="width:22px;height:22px;font-size:9px">LC</span><span class="cp n">Diagnóstico</span><b>—</b></div></div>
                       <div class="carc"><span class="plate">PQRS78</span><div class="v">Hyundai Accent 2016</div><div class="s">Mantención 40.000 km</div><div class="f"><span class="av" style="width:22px;height:22px;font-size:9px">MP</span><span class="cp n">Cotizado</span><b>$96.000</b></div></div>
                     </div>
-                    <div><h6 style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#7C86A3;margin-bottom:8px">En reparación · 4</h6>
+                    <div><h6 style="font:600 10px/1 'Geist Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#7C86A3;margin-bottom:8px">En reparación · 4</h6>
                       <div class="carc" style="border-color:rgba(245,158,11,.4)"><span class="plate">ABCD12</span><div class="v">Toyota Yaris 2018</div><div class="s">Cambio de aceite y frenos</div><div class="tprog"><i style="width:62%"></i></div><div class="f"><span class="av o" style="width:22px;height:22px;font-size:9px">DS</span><span class="cp a">En reparación</span><b>$85.900</b></div></div>
                       <div class="carc"><span class="plate">WXYZ90</span><div class="v">Kia Morning 2020</div><div class="s">Cambio de batería</div><div class="tprog"><i style="width:30%"></i></div><div class="f"><span class="av p" style="width:22px;height:22px;font-size:9px">AR</span><span class="cp a">En reparación</span><b>$74.500</b></div></div>
                     </div>
-                    <div><h6 style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#7C86A3;margin-bottom:8px">Listo para cobrar · 2</h6>
+                    <div><h6 style="font:600 10px/1 'Geist Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#7C86A3;margin-bottom:8px">Listo para cobrar · 2</h6>
                       <div class="carc" style="border-color:rgba(34,197,94,.4)"><span class="plate">HJKL33</span><div class="v">Suzuki Swift 2017</div><div class="s">Alineación y balanceo</div><div class="f"><span class="av t" style="width:22px;height:22px;font-size:9px">LC</span><span class="cp g">Listo</span><b>$38.000</b></div></div>
                       <div class="carc"><span class="plate">TUVW56</span><div class="v">Nissan Versa 2015</div><div class="s">Pastillas de freno</div><div class="f"><span class="av" style="width:22px;height:22px;font-size:9px">MP</span><span class="cp g">Listo</span><b>$52.800</b></div></div>
                     </div>
@@ -413,7 +415,7 @@
                   <div class="ln"><div class="tx">Aceite 5W-30 (4 L)<small>Insumo</small></div><b>$24.000</b></div>
                   <div class="ln"><div class="tx">Revisión de frenos<small>Servicio</small></div><b>$18.000</b></div>
                 </div>
-                <div style="display:flex;justify-content:space-between;align-items:baseline;margin:12px 2px 8px"><span style="color:#9AA4C0">Total</span><b style="font:800 20px 'Archivo',sans-serif">$85.900</b></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;margin:12px 2px 8px"><span style="color:#9AA4C0">Total</span><b style="font:800 20px 'Geist',sans-serif">$85.900</b></div>
                 <span class="btn-m pri" style="width:100%;padding:11px">Cobrar en caja</span>
                 <div class="ph-nav"><span><svg class="i"><use href="#i-grid"/></svg>Panel</span><span class="on"><svg class="i"><use href="#i-wrench"/></svg>Reparar</span><span><svg class="i"><use href="#i-layers"/></svg>Venta</span><span><svg class="i"><use href="#i-database"/></svg>Caja</span><span><svg class="i"><use href="#i-layout"/></svg>Más</span></div>
               </div>
@@ -581,7 +583,7 @@
                 <div class="ring"><b>6 h</b></div>
                 <div style="text-align:center;font-size:10px;color:#7C86A3;margin-bottom:10px">tiempo restante del SLA</div>
                 <div style="display:flex;justify-content:center;gap:4px;margin-bottom:10px">
-                  <span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'JetBrains Mono',monospace;color:#fff">4</span><span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'JetBrains Mono',monospace;color:#fff">8</span><span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'JetBrains Mono',monospace;color:#fff">2</span><span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'JetBrains Mono',monospace;color:#fff">9</span><span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'JetBrains Mono',monospace;color:#fff">1</span><span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'JetBrains Mono',monospace;color:#fff">3</span>
+                  <span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'Geist Mono',monospace;color:#fff">4</span><span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'Geist Mono',monospace;color:#fff">8</span><span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'Geist Mono',monospace;color:#fff">2</span><span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'Geist Mono',monospace;color:#fff">9</span><span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'Geist Mono',monospace;color:#fff">1</span><span class="pnl" style="padding:6px 0;width:26px;text-align:center;font:700 13px 'Geist Mono',monospace;color:#fff">3</span>
                 </div>
                 <div style="display:flex;gap:8px"><span class="btn-m ok" style="flex:1;padding:10px">Aprobar</span><span class="btn-m no" style="flex:1;padding:10px">Rechazar</span></div>
                 <div class="ph-nav"><span><svg class="i"><use href="#i-grid"/></svg>Resumen</span><span class="on"><svg class="i"><use href="#i-check"/></svg>Aprobar</span><span><svg class="i"><use href="#i-clock"/></svg>Historial</span></div>
@@ -622,7 +624,7 @@
               <div class="win-body">
                 <div class="main" style="padding:14px 18px">
                   <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-                    <span style="width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#14B8A6,#3B82F6);display:block"></span><b style="font:800 13px 'Archivo',sans-serif;margin-right:8px">Mi Empresa</b>
+                    <span style="width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#14B8A6,#3B82F6);display:block"></span><b style="font:800 13px 'Geist',sans-serif;margin-right:8px">Mi Empresa</b>
                     <span class="cp" style="background:#14B8A6;color:#fff">Inicio</span><span class="cp n">Noticias</span><span class="cp n">Documentos</span><span class="cp n">Ideas</span><span class="cp n">Ayuda</span>
                     <span class="cp n" style="margin-left:auto">Buscar · Ctrl K</span><span class="av t" style="width:24px;height:24px;font-size:9px">MZ</span>
                   </div>
@@ -794,9 +796,9 @@
 <!-- CAPACIDADES -->
 <section class="section" id="capacidades">
   <div class="wrap">
-    <div class="section-head center reveal">
-      <span class="pill-label">Capacidades</span>
-      <h2>Todo lo que puedes gestionar con tus aplicaciones</h2>
+    <div class="section-head reveal">
+      <div class="sec-index"><b>03</b><span>Capacidades</span></div>
+      <h2>Todo lo que puedes <em>gestionar</em> con tus aplicaciones</h2>
       <p class="section-intro">Una sola mirada a los procesos de tu empresa que podemos ordenar, conectar y automatizar.</p>
     </div>
     <div class="cap-grid reveal">
@@ -832,8 +834,8 @@
 <section class="section alt" id="automatizacion">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="pill-label">Automatización e innovación</span>
-      <h2>Del Excel y los correos a una aplicación</h2>
+      <div class="sec-index"><b>04</b><span>Automatización</span></div>
+      <h2>Del Excel y los correos a una <em>aplicación</em></h2>
       <p class="section-intro">Tomamos el proceso tal como funciona hoy, quitamos lo manual y dejamos una herramienta simple que tu equipo adopta rápido.</p>
     </div>
     <div class="ba reveal">
@@ -880,9 +882,9 @@
 <!-- TECNOLOGÍA -->
 <section class="section" id="tecnologia">
   <div class="wrap">
-    <div class="section-head center reveal">
-      <span class="pill-label">Tecnología</span>
-      <h2>Modernas, seguras y fáciles de mantener</h2>
+    <div class="section-head reveal">
+      <div class="sec-index"><b>05</b><span>Tecnología</span></div>
+      <h2>Modernas, <em>seguras</em> y fáciles de mantener</h2>
       <p class="section-intro">Usamos herramientas probadas y buenas prácticas para que tu aplicación sea confiable hoy y pueda crecer mañana.</p>
     </div>
     <div class="tech-grid reveal">
@@ -900,9 +902,9 @@
 <!-- PROCESO -->
 <section class="section alt" id="proceso">
   <div class="wrap">
-    <div class="section-head center reveal">
-      <span class="pill-label">Proceso</span>
-      <h2>Cómo trabajamos contigo</h2>
+    <div class="section-head reveal">
+      <div class="sec-index"><b>06</b><span>Proceso</span></div>
+      <h2>Cómo <em>trabajamos</em> contigo</h2>
       <p class="section-intro">Sin proyectos eternos ni sorpresas: vas viendo avances reales desde el principio.</p>
     </div>
     <div class="steps-row reveal">
@@ -917,9 +919,9 @@
 <!-- MODALIDADES -->
 <section class="section" id="modelos">
   <div class="wrap">
-    <div class="section-head center reveal">
-      <span class="pill-label">Modalidades</span>
-      <h2>Elige cómo quieres partir</h2>
+    <div class="section-head reveal">
+      <div class="sec-index"><b>07</b><span>Modalidades</span></div>
+      <h2>Elige cómo quieres <em>partir</em></h2>
       <p class="section-intro">Productos listos para usar o desarrollos a tu medida, con el acompañamiento que necesites.</p>
     </div>
     <div class="model-grid reveal">
@@ -954,7 +956,7 @@
     <div class="cta-panel reveal">
       <div class="blob a"></div><div class="blob b"></div>
       <span class="pill-label">Contacto</span>
-      <h2>¿Tienes un proceso que todavía vive en Excel o en correos?</h2>
+      <h2>¿Tienes un proceso que todavía vive en <em>Excel</em> o en correos?</h2>
       <p>Cuéntanos qué necesitas y te proponemos cómo convertirlo en una aplicación a tu medida. Sin compromiso.</p>
       <div class="cta-actions">
         <a href="#contacto" class="btn-primary btn-lg" data-open-modal="">Cotiza tu proyecto <svg class="ico"><use href="#i-arrow"/></svg></a>
@@ -1025,6 +1027,6 @@
   </div>
 </div>
 
-<script src="/assets/site.js?v=3" defer></script>
+<script src="/assets/site.js?v=4" defer></script>
 </body>
 </html>
