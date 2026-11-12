@@ -3,15 +3,21 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
+const ROOT = __dirname;
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.svg':  'image/svg+xml',
   '.png':  'image/png',
   '.jpg':  'image/jpeg',
-  '.css':  'text/css',
-  '.js':   'application/javascript',
+  '.css':  'text/css; charset=utf-8',
+  '.js':   'application/javascript; charset=utf-8',
 };
+
+// Solo se publican estas rutas. Todo lo demás (server.js, package.json, .git, etc.)
+// no se sirve y cae a la página principal.
+const PUBLIC_FILES = new Set(['/index.html', '/logo.svg']);
+const PUBLIC_DIRS = ['/assets/'];
 
 const SECURITY_HEADERS = {
   'X-Content-Type-Options':    'nosniff',
@@ -24,31 +30,47 @@ const SECURITY_HEADERS = {
     "default-src 'self'; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src https://fonts.gstatic.com; " +
-    "img-src 'self' data: https://images.unsplash.com; " +
+    "img-src 'self' data:; " +
     "script-src 'self' 'unsafe-inline'; " +
-    "connect-src 'none';",
+    "connect-src 'none'; " +
+    "object-src 'none'; base-uri 'self'; form-action 'self';",
 };
 
+function resolvePublic(rawUrl) {
+  let p;
+  try { p = decodeURIComponent(rawUrl.split('?')[0]); } catch (e) { return null; }
+  if (p === '/') p = '/index.html';
+  if (p.includes('..') || p.includes('\0')) return null;
+  const allowed = PUBLIC_FILES.has(p) || PUBLIC_DIRS.some((d) => p.startsWith(d));
+  if (!allowed) return null;
+  const full = path.join(ROOT, p);
+  return full.startsWith(ROOT + path.sep) ? full : null;
+}
+
+function sendIndex(res) {
+  fs.readFile(path.join(ROOT, 'index.html'), (err, data) => {
+    if (err) { res.writeHead(500); res.end('Error'); return; }
+    res.writeHead(200, { 'Content-Type': MIME['.html'], ...SECURITY_HEADERS });
+    res.end(data);
+  });
+}
+
 http.createServer((req, res) => {
-  const url = req.url === '/' ? '/index.html' : req.url.split('?')[0];
-  const filePath = path.join(__dirname, url);
+  const filePath = resolvePublic(req.url);
 
-  if (!filePath.startsWith(__dirname)) {
-    res.writeHead(403);
-    res.end('Forbidden');
-    return;
-  }
-
-  const ext = path.extname(filePath);
+  if (!filePath) { sendIndex(res); return; }
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      fs.readFile(path.join(__dirname, 'index.html'), (e2, d2) => {
-        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', ...SECURITY_HEADERS });
-        res.end(d2);
-      });
+      if (req.url.startsWith('/assets/')) {
+        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8', ...SECURITY_HEADERS });
+        res.end('No encontrado');
+        return;
+      }
+      sendIndex(res);
       return;
     }
+    const ext = path.extname(filePath);
     res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream', ...SECURITY_HEADERS });
     res.end(data);
   });

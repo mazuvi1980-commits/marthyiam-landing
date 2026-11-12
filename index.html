@@ -4,2046 +4,837 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
-  (function() {
+  /* Aplica el tema guardado antes del primer pintado para evitar parpadeos. */
+  (function () {
     try {
-      var saved = localStorage.getItem('marthyiam-theme');
-      if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+      if (localStorage.getItem('marthyiam-theme') === 'light') document.documentElement.setAttribute('data-theme', 'light');
     } catch (e) {}
   })();
 </script>
-<title>MarthyIAM — Gestión de Identidades para Empresas que Crecen</title>
+<title>MarthyIAM — Desarrollo de aplicaciones, intranets y automatización para tu empresa</title>
+<meta name="description" content="Desarrollamos aplicaciones a medida: intranets corporativas, sitios web, sistemas para restaurantes y talleres, administración de Active Directory, gestión de identidades y automatización de procesos. Hecho en Chile.">
+<meta name="theme-color" content="#14171F">
+<meta property="og:title" content="MarthyIAM — Aplicaciones a medida para tu empresa">
+<meta property="og:description" content="Intranets, apps, sistemas de gestión y automatización de procesos. Convertimos tus procesos en aplicaciones que tu equipo sí usa.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink:       #14171F;
-    --deep:      #1A1E28;
-    --surface:   #1F2430;
-    --border:    #2A3140;
-    --muted:     #3D4558;
-    --text-dim:  #8B93AC;
-    --text:      #D3D8E6;
-    --white:     #F3F5FA;
-    --cyan:      #4F6BFF;
-    --cyan-dim:  rgba(79,107,255,0.14);
-    --cyan-glow: rgba(79,107,255,0.08);
-    --green:     #22C55E;
-    --amber:     #F5A524;
-    --dw-bg:     #171B26;
-    --dw-surface:#1D2230;
-    --dw-border: #262B38;
-    --dw-text:   #D8DDF0;
-    --dw-text-dim:#838DA6;
-    --dw-accent: #6E93FF;
-    --dw-amber:  #FBBF24;
-    --shadow-card: 0 1px 2px rgba(0,0,0,0.3);
-    --nav-bg:    rgba(20,23,31,0.85);
-    --nav-bg-solid: rgba(20,23,31,0.98);
-  }
-
-  /* Light theme — same accent/semantic colors, neutrals inverted.
-     --ink/--white swap roles (page-bg vs highest-contrast text) so every
-     existing rule that references them keeps working unchanged. */
-  :root[data-theme="light"] {
-    --ink:       #FBFCFE;
-    --deep:      #FFFFFF;
-    --surface:   #F1F3F8;
-    --border:    #E2E6EF;
-    --muted:     #C7CDDA;
-    --text-dim:  #5B6478;
-    --text:      #29303F;
-    --white:     #12151D;
-    --shadow-card: 0 1px 2px rgba(20,30,50,0.06), 0 1px 12px rgba(20,30,50,0.04);
-    --nav-bg:    rgba(255,255,255,0.85);
-    --nav-bg-solid: rgba(255,255,255,0.98);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  .ico { width: 1em; height: 1em; display: inline-block; vertical-align: -0.125em; }
-
-  html { scroll-behavior: smooth; background-color: var(--ink) !important; }
-
-  body {
-    background: var(--ink);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    transition: background-color 0.25s ease, color 0.25s ease;
-  }
-
-  /* Decorative bubble particles are tuned to glow on a dark background —
-     hide them in light mode rather than retheme every bubble. */
-  :root[data-theme="light"] .bubble-field { display: none; }
-
-  /* ── GRID NOISE TEXTURE ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(79,107,255,0.014) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(79,107,255,0.014) 1px, transparent 1px);
-    background-size: 64px 64px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 5vw;
-    height: 80px;
-    background: var(--nav-bg);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    transition: background-color 0.25s ease;
-  }
-
-  .logo {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 800;
-    font-size: 1.25rem;
-    color: var(--white);
-    letter-spacing: -0.02em;
-    text-decoration: none;
-  }
-
-
-  .logo-with-img { display: flex; align-items: center; gap: 0.6rem; }
-  .logo-img { height: 68px; width: auto; object-fit: contain; }
-
-  .logo span { color: var(--cyan); }
-
-  nav ul {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-
-  nav ul a {
-    font-size: 0.875rem;
-    color: var(--text-dim);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s;
-  }
-
-  nav ul a:hover { color: var(--white); }
-
-  .nav-cta {
-    background: var(--cyan);
-    color: var(--ink) !important;
-    padding: 0.45rem 1.1rem;
-    border-radius: 6px;
-    font-weight: 600 !important;
-    font-size: 0.85rem !important;
-    transition: opacity 0.2s !important;
-  }
-  .nav-cta:hover { opacity: 0.85; color: var(--ink) !important; }
-
-  .nav-right { display: flex; align-items: center; gap: 0.6rem; }
-
-  /* ── THEME TOGGLE ── */
-  .theme-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text-dim);
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .theme-toggle:hover { border-color: var(--cyan); color: var(--white); }
-  .theme-toggle .ico { width: 18px; height: 18px; }
-  .theme-icon-moon { display: none; }
-  html[data-theme="light"] .theme-icon-sun { display: none; }
-  html[data-theme="light"] .theme-icon-moon { display: block; }
-
-  /* ── NAV MOBILE TOGGLE ── */
-  .nav-toggle {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--white);
-    cursor: pointer;
-    transition: border-color 0.2s;
-  }
-  .nav-toggle:hover { border-color: var(--cyan); }
-  .nav-toggle .ico { width: 18px; height: 18px; }
-  .nav-toggle-close { display: none; }
-  .nav-toggle[aria-expanded="true"] .nav-toggle-open { display: none; }
-  .nav-toggle[aria-expanded="true"] .nav-toggle-close { display: block; }
-
-  @media (max-width: 860px) {
-    .nav-toggle { display: flex; }
-
-    nav ul {
-      position: fixed;
-      top: 80px;
-      left: 0; right: 0;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0;
-      background: var(--nav-bg-solid);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 5vw;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-    nav ul.open { max-height: 420px; padding: 0.5rem 5vw 1.25rem; }
-    nav ul li { width: 100%; }
-    nav ul a { display: block; padding: 0.9rem 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
-    nav ul li:last-child a { border-bottom: none; }
-    nav ul .nav-cta { display: inline-flex; margin-top: 0.85rem; padding: 0.7rem 1.1rem; }
-  }
-
-  /* ── HERO ── */
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 120px 5vw 80px;
-    overflow: hidden;
-  }
-
-  /* Radial glow behind hero text */
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: 10%; left: 50%;
-    transform: translateX(-50%);
-    width: 700px;
-    height: 500px;
-    background: radial-gradient(ellipse at center, rgba(79,107,255,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  /* ── BUBBLE FIELD (small fluorescent-celeste drink/oil bubbles) ── */
-  .bubble-field {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .bubble-wrap {
-    position: absolute;
-    animation: bubble-drift var(--dur, 22s) ease-in-out infinite;
-    animation-delay: var(--delay, 0s);
-  }
-  .bubble-shape {
-    width: 100%; height: 100%;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, rgba(180,252,255,0.95), rgba(56,224,255,0.45) 55%, transparent 78%);
-    transform: rotate(var(--rot, 0deg)) scaleY(var(--stretch, 1));
-    opacity: var(--op, 0.2);
-    filter: blur(0.4px);
-  }
-  @keyframes bubble-drift {
-    0%, 100% { transform: translate(0,0); }
-    50%      { transform: translate(var(--dx, 10px), var(--dy, -20px)); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .bubble-wrap { animation: none; }
-  }
-
-  .hero-inner {
-    position: relative;
-    z-index: 1;
-    max-width: 760px;
-  }
-
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--cyan);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-  }
-
-  .eyebrow::before {
-    content: '';
-    display: inline-block;
-    width: 24px; height: 1px;
-    background: var(--cyan);
-  }
-
-  h1 {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 800;
-    font-size: clamp(2rem, 3.4vw, 3.15rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--white);
-    margin-bottom: 1.5rem;
-  }
-
-  h1 em {
-    font-style: normal;
-    color: var(--cyan);
-  }
-
-  .hero-sub {
-    font-size: 1.1rem;
-    color: var(--text-dim);
-    max-width: 560px;
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--cyan);
-    color: var(--ink);
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 0.95rem;
-    padding: 0.85rem 1.8rem;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.2s;
-    border: none;
-    cursor: pointer;
-  }
-
-  .btn-primary:hover {
-    background: #6B84FF;
-    transform: translateY(-1px);
-    box-shadow: 0 8px 32px rgba(79,107,255,0.3);
-  }
-
-  .btn-ghost {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: transparent;
-    color: var(--text);
-    font-weight: 500;
-    font-size: 0.95rem;
-    padding: 0.85rem 1.8rem;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    text-decoration: none;
-    transition: all 0.2s;
-    cursor: pointer;
-  }
-
-  .btn-ghost:hover {
-    border-color: var(--cyan);
-    color: var(--white);
-  }
-
-  .hero-trust {
-    margin-top: 3rem;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .trust-item {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .trust-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  /* ── EXPANDABLE DEMO WINDOW ── */
-  .hero-visual {
-    position: absolute;
-    right: 5vw;
-    top: 50%;
-    transform: translateY(-50%);
-    width: min(460px, 40vw);
-    z-index: 1;
-  }
-
-  @media (max-width: 900px) {
-    .hero-visual { display: none; }
-    .hero-inner { max-width: 100%; }
-  }
-
-  .demo-window {
-    background: linear-gradient(155deg, #1D2333 0%, #12151E 65%, #14182B 100%);
-    border: 1px solid var(--dw-border);
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(110,147,255,0.1);
-    transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  .demo-window::before, .demo-window::after {
-    content: '';
-    position: absolute;
-    border-radius: 10px;
-    pointer-events: none;
-  }
-  .demo-window::before {
-    width: 140px; height: 140px;
-    right: -50px; top: -60px;
-    background: linear-gradient(135deg, rgba(110,147,255,0.16), rgba(110,147,255,0));
-    transform: rotate(18deg);
-  }
-  .demo-window::after {
-    width: 90px; height: 90px;
-    left: -30px; bottom: -30px;
-    background: linear-gradient(135deg, rgba(52,211,153,0.1), rgba(52,211,153,0));
-    transform: rotate(-12deg);
-  }
-
-  .demo-window-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1rem;
-    background: var(--dw-surface);
-    border-bottom: 1px solid var(--dw-border);
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .demo-window-bar:hover { background: #232939; }
-
-  .demo-bar-left {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .demo-window-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--dw-text-dim);
-    margin-left: 0.5rem;
-  }
-
-  .demo-expand-btn {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--dw-accent);
-    background: rgba(110,147,255,0.14);
-    border: 1px solid rgba(110,147,255,0.3);
-    border-radius: 4px;
-    padding: 0.2rem 0.5rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .demo-expand-btn:hover {
-    background: rgba(110,147,255,0.24);
-  }
-
-  .demo-collapsed {
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .demo-collapsed-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.65rem 0.85rem;
-    background: var(--dw-surface);
-    border: 1px solid var(--dw-border);
-    border-radius: 8px;
-  }
-
-  .demo-icon {
-    font-size: 1rem;
-    flex-shrink: 0;
-    display: flex;
-    color: var(--dw-text-dim);
-  }
-
-  .demo-row-text {
-    font-size: 0.8rem;
-    color: var(--dw-text);
-    font-weight: 500;
-  }
-
-  .demo-row-badge {
-    margin-left: auto;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    padding: 0.15rem 0.45rem;
-    border-radius: 4px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .badge-green {
-    background: rgba(34,197,94,0.12);
-    color: var(--green);
-    border: 1px solid rgba(34,197,94,0.25);
-  }
-
-  .badge-amber {
-    background: rgba(245,165,36,0.12);
-    color: var(--amber);
-    border: 1px solid rgba(245,165,36,0.25);
-  }
-
-  .badge-cyan {
-    background: var(--cyan-dim);
-    color: var(--cyan);
-    border: 1px solid rgba(79,107,255,0.2);
-  }
-
-  .demo-expanded {
-    display: none;
-    padding: 1.25rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    line-height: 1.8;
-  }
-
-  .demo-window.expanded .demo-collapsed { display: none; }
-  .demo-window.expanded .demo-expanded { display: block; }
-
-  .terminal {
-    background: var(--deep);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(79,107,255,0.08);
-  }
-
-  .terminal-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .dot-r { background: #FF5F57; }
-  .dot-y { background: #FFBD2E; }
-  .dot-g { background: #28CA41; }
-
-  .terminal-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--text-dim);
-    margin-left: 0.5rem;
-  }
-
-  .terminal-body {
-    padding: 1.25rem 1.25rem 1.5rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    line-height: 1.8;
-  }
-
-  .t-comment { color: #616B85; }
-  .t-key { color: var(--dw-accent); }
-  .t-val { color: #34D399; }
-  .t-str { color: var(--dw-amber); }
-  .t-dim { color: var(--dw-text-dim); }
-  .t-cursor {
-    display: inline-block;
-    width: 8px; height: 14px;
-    background: var(--dw-accent);
-    vertical-align: middle;
-    animation: blink 1.2s step-end infinite;
-    margin-left: 2px;
-  }
-
-  @keyframes blink {
-    50% { opacity: 0; }
-  }
-
-  /* ── SECTIONS SHARED ── */
-  section {
-    position: relative;
-    z-index: 1;
-    padding: 100px 5vw;
-  }
-
-  .section-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--cyan);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-  }
-
-  h2 {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 700;
-    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-    color: var(--white);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-  }
-
-  .section-intro {
-    font-size: 1rem;
-    color: var(--text-dim);
-    max-width: 560px;
-    line-height: 1.75;
-  }
-
-  /* ── PROBLEM STRIP ── */
-  .problem-strip {
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 48px 5vw;
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .problem-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    max-width: 280px;
-  }
-
-  .problem-icon {
-    flex-shrink: 0;
-    margin-top: 2px;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: var(--cyan-dim);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .problem-icon svg {
-    width: 18px;
-    height: 18px;
-    stroke: var(--cyan);
-  }
-
-  .problem-text strong {
-    display: block;
-    color: var(--white);
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 0.2rem;
-  }
-
-  .problem-text span {
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    line-height: 1.5;
-  }
-
-  /* ── SERVICES ── */
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    margin-top: 3rem;
-  }
-
-  .service-card {
-    background: var(--deep);
-    padding: 2rem;
-    transition: background 0.25s, transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .service-card:hover {
-    background: var(--surface);
-    transform: translateY(-4px);
-    box-shadow: 0 16px 32px rgba(15,98,254,0.1);
-    z-index: 2;
-  }
-
-  .service-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--cyan), transparent);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  .service-card:hover::before { opacity: 1; }
-
-  .service-icon {
-    width: 44px; height: 44px;
-    border-radius: 10px;
-    background: var(--cyan-dim);
-    border: 1px solid rgba(79,107,255,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    color: var(--cyan);
-    margin-bottom: 1.25rem;
-  }
-
-  .service-card h3 {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--white);
-    margin-bottom: 0.6rem;
-    letter-spacing: -0.01em;
-  }
-
-  .service-card p {
-    font-size: 0.875rem;
-    color: var(--text-dim);
-    line-height: 1.65;
-  }
-
-  .service-tag {
-    display: inline-block;
-    margin-top: 1rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--cyan);
-    background: var(--cyan-dim);
-    border: 1px solid rgba(79,107,255,0.15);
-    padding: 0.2rem 0.55rem;
-    border-radius: 4px;
-    letter-spacing: 0.05em;
-  }
-
-  /* ── PLATFORM FEATURE ── */
-  .platform-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    margin-top: 3.5rem;
-  }
-
-  @media (max-width: 768px) {
-    .platform-layout { grid-template-columns: 1fr; gap: 2.5rem; }
-  }
-
-  .feature-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    list-style: none;
-  }
-
-  .feature-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.85rem;
-    padding: 1.1rem 1.25rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    transition: border-color 0.2s;
-  }
-
-  .feature-list li:hover { border-color: rgba(79,107,255,0.25); }
-
-  .check {
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: rgba(34,197,94,0.12);
-    border: 1px solid rgba(34,197,94,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 0.65rem;
-    color: var(--green);
-    margin-top: 2px;
-  }
-
-  .feature-list strong {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--white);
-    font-weight: 600;
-    margin-bottom: 0.2rem;
-  }
-
-  .feature-list span {
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    line-height: 1.5;
-  }
-
-  /* Platform stats card */
-  .stats-card {
-    background: linear-gradient(155deg, #1D2333 0%, #12151E 65%, #14182B 100%);
-    border: 1px solid var(--dw-border);
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .stats-card::before {
-    content: '';
-    position: absolute;
-    width: 130px; height: 130px;
-    right: -40px; bottom: -50px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, rgba(110,147,255,0.14), rgba(110,147,255,0));
-    transform: rotate(22deg);
-    pointer-events: none;
-  }
-
-  .stats-card-header {
-    padding: 1rem 1.25rem;
-    background: var(--dw-surface);
-    border-bottom: 1px solid var(--dw-border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .stats-card-header span {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--dw-text-dim);
-  }
-
-  .live-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    color: #34D399;
-  }
-
-  .live-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #34D399;
-    animation: pulse 2s infinite;
-  }
-
-  .stats-body {
-    padding: 1.5rem 1.25rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .stat-block {
-    padding: 1rem;
-    background: var(--dw-surface);
-    border-radius: 8px;
-    border: 1px solid var(--dw-border);
-  }
-
-  .stat-num {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: var(--dw-accent);
-    letter-spacing: -0.01em;
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-    color: var(--dw-text-dim);
-    margin-top: 0.35rem;
-    line-height: 1.4;
-  }
-
-  .connectors-row {
-    margin-top: 1rem;
-    padding: 1rem 1.25rem;
-    border-top: 1px solid var(--dw-border);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .connector-pill {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    padding: 0.25rem 0.6rem;
-    border-radius: 4px;
-    border: 1px solid var(--dw-border);
-    color: var(--dw-text-dim);
-    background: var(--dw-surface);
-  }
-
-  .connector-pill.active {
-    border-color: rgba(110,147,255,0.35);
-    color: var(--dw-accent);
-    background: rgba(110,147,255,0.14);
-  }
-
-  /* ── HOW IT WORKS ── */
-  .steps-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0;
-    margin-top: 3.5rem;
-    position: relative;
-  }
-
-  .steps-row::before {
-    content: '';
-    position: absolute;
-    top: 28px; left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), var(--border), transparent);
-  }
-
-  .step {
-    padding: 0 1.5rem;
-    text-align: center;
-    position: relative;
-  }
-
-  .step-num {
-    width: 56px; height: 56px;
-    border-radius: 50%;
-    background: var(--deep);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--cyan);
-    margin: 0 auto 1.25rem;
-    position: relative;
-    z-index: 1;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-
-  .step:hover .step-num {
-    border-color: var(--cyan);
-    box-shadow: 0 0 20px rgba(79,107,255,0.15);
-  }
-
-  .step h3 {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 700;
-    color: var(--white);
-    font-size: 0.95rem;
-    margin-bottom: 0.6rem;
-  }
-
-  .step p {
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    line-height: 1.65;
-  }
-
-  /* ── PRICING ── */
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-
-  .plan-card {
-    background: var(--deep);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 2rem;
-    position: relative;
-    box-shadow: var(--shadow-card);
-    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-  }
-
-  .plan-card:hover {
-    border-color: rgba(79,107,255,0.2);
-    transform: translateY(-2px);
-  }
-
-  .plan-card.featured {
-    border-color: rgba(79,107,255,0.4);
-    background: linear-gradient(160deg, rgba(79,107,255,0.05) 0%, var(--deep) 60%);
-  }
-
-  .featured-badge {
-    position: absolute;
-    top: -1px; left: 50%;
-    transform: translateX(-50%);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--ink);
-    background: var(--cyan);
-    padding: 0.2rem 0.75rem;
-    border-radius: 0 0 6px 6px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-
-  .plan-name {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--white);
-    margin-bottom: 0.5rem;
-  }
-
-  .plan-price {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 1.8rem;
-    color: var(--white);
-    letter-spacing: -0.02em;
-    line-height: 1;
-    margin-bottom: 0.25rem;
-  }
-
-  .plan-price sup {
-    font-size: 1rem;
-    font-weight: 600;
-    vertical-align: super;
-    margin-right: 2px;
-  }
-
-  .plan-price small {
-    font-size: 0.8rem;
-    font-weight: 400;
-    color: var(--text-dim);
-    letter-spacing: 0;
-  }
-
-  .plan-desc {
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border);
-    line-height: 1.55;
-  }
-
-  .plan-features {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    margin-bottom: 1.75rem;
-  }
-
-  .plan-features li {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-    font-size: 0.845rem;
-    color: var(--text);
-  }
-
-  .plan-features li::before {
-    content: '✓';
-    color: var(--green);
-    font-weight: 700;
-    font-size: 0.75rem;
-    flex-shrink: 0;
-  }
-
-  /* ── CTA SECTION ── */
-  .cta-section {
-    text-align: center;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 100px 5vw;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-section::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 300px;
-    background: radial-gradient(ellipse at bottom, rgba(79,107,255,0.1) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .cta-section h2 { margin-bottom: 1rem; }
-
-  .cta-section p {
-    font-size: 1rem;
-    color: var(--text-dim);
-    max-width: 480px;
-    margin: 0 auto 2.5rem;
-    line-height: 1.7;
-  }
-
-  .cta-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 48px 5vw;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .footer-logo {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: var(--white);
-    text-decoration: none;
-  }
-
-  .footer-logo span { color: var(--cyan); }
-
-  footer p {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-  }
-
-  .footer-links {
-    display: flex;
-    gap: 1.5rem;
-    list-style: none;
-  }
-
-  .footer-links a {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .footer-links a:hover { color: var(--white); }
-
-  /* ── TESTIMONIOS ── */
-  .testimonios-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-
-  .testimonio-card {
-    background: var(--deep);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.75rem;
-    box-shadow: var(--shadow-card);
-    transition: border-color 0.2s;
-  }
-
-  .testimonio-card:hover { border-color: rgba(79,107,255,0.2); }
-
-  .testimonio-texto {
-    font-size: 0.9rem;
-    color: var(--text);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-    font-style: italic;
-  }
-
-  .testimonio-autor {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-  }
-
-  .testimonio-foto {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--border);
-  }
-
-  .testimonio-nombre {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--white);
-  }
-
-  .testimonio-cargo {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    margin-top: 0.1rem;
-  }
-
-  .estrellas {
-    color: var(--amber);
-    font-size: 0.75rem;
-    margin-bottom: 1rem;
-    letter-spacing: 0.05em;
-  }
-
-  /* ── MODAL ── */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(6px);
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s;
-  }
-
-  .modal-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .modal {
-    background: var(--deep);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 480px;
-    position: relative;
-    transform: translateY(16px);
-    transition: transform 0.25s;
-  }
-
-  .modal-overlay.active .modal { transform: translateY(0); }
-
-  .modal-close {
-    position: absolute;
-    top: 1rem; right: 1rem;
-    background: none;
-    border: none;
-    color: var(--text-dim);
-    font-size: 1.25rem;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0.25rem 0.5rem;
-    transition: color 0.2s;
-  }
-
-  .modal-close:hover { color: var(--white); }
-
-  .modal h3 {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: var(--white);
-    margin-bottom: 0.4rem;
-    letter-spacing: -0.02em;
-  }
-
-  .modal-sub {
-    font-size: 0.875rem;
-    color: var(--text-dim);
-    margin-bottom: 1.75rem;
-    line-height: 1.6;
-  }
-
-  .form-group {
-    margin-bottom: 1rem;
-  }
-
-  label {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    font-weight: 500;
-    margin-bottom: 0.4rem;
-  }
-
-  input, select, textarea {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    font-size: 0.875rem;
-    padding: 0.7rem 0.9rem;
-    outline: none;
-    transition: border-color 0.2s;
-    appearance: none;
-  }
-
-  input::placeholder, textarea::placeholder { color: var(--muted); }
-
-  input:focus, select:focus, textarea:focus {
-    border-color: rgba(79,107,255,0.5);
-    box-shadow: 0 0 0 3px rgba(79,107,255,0.08);
-  }
-
-  select {
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237A85A0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    padding-right: 2.5rem;
-  }
-
-  select option { background: var(--deep); }
-
-  textarea { resize: vertical; min-height: 80px; }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-
-  .modal .btn-primary { width: 100%; justify-content: center; margin-top: 0.5rem; }
-
-  .success-state {
-    text-align: center;
-    padding: 1rem 0;
-    display: none;
-  }
-
-  .success-state .big-check {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: var(--green);
-    display: flex;
-    justify-content: center;
-  }
-
-  .success-state h4 {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 700;
-    color: var(--white);
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .success-state p {
-    font-size: 0.875rem;
-    color: var(--text-dim);
-  }
-
-  /* ── SCROLL ANIMATIONS ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .reveal > .service-card, .reveal > .plan-card, .reveal > .testimonio-card, .reveal > .step {
-    opacity: 0;
-    transform: translateY(22px);
-    transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
-  }
-  .reveal.visible > .service-card, .reveal.visible > .plan-card, .reveal.visible > .testimonio-card, .reveal.visible > .step {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .reveal > .service-card:nth-child(1), .reveal > .plan-card:nth-child(1), .reveal > .testimonio-card:nth-child(1), .reveal > .step:nth-child(1) { transition-delay: 0.05s; }
-  .reveal > .service-card:nth-child(2), .reveal > .plan-card:nth-child(2), .reveal > .testimonio-card:nth-child(2), .reveal > .step:nth-child(2) { transition-delay: 0.14s; }
-  .reveal > .service-card:nth-child(3), .reveal > .plan-card:nth-child(3), .reveal > .testimonio-card:nth-child(3), .reveal > .step:nth-child(3) { transition-delay: 0.23s; }
-  .reveal > .service-card:nth-child(4), .reveal > .plan-card:nth-child(4), .reveal > .testimonio-card:nth-child(4), .reveal > .step:nth-child(4) { transition-delay: 0.32s; }
-
-  @media (max-width: 600px) {
-    .steps-row::before { display: none; }
-    .form-row { grid-template-columns: 1fr; }
-    .stats-body { grid-template-columns: 1fr; }
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=6">
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
 
+<!-- Íconos (sprite SVG, sin dependencias externas) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <symbol id="ico-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
-    <symbol id="ico-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
-    <symbol id="ico-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
-    <symbol id="ico-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
-    <symbol id="ico-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
-    <symbol id="ico-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
-    <symbol id="ico-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
-    <symbol id="ico-graduation" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></symbol>
-    <symbol id="ico-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></symbol>
-    <symbol id="ico-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
-    <filter id="goo">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur"/>
-      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo"/>
-    </filter>
+    <symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+    <symbol id="i-chef" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+    <symbol id="i-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
+    <symbol id="i-plug" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
   </defs>
 </svg>
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="logo logo-with-img"><img src="/logo.svg?v=3" alt="MarthyIAM" class="logo-img"></a>
-  <div class="nav-right">
-    <button class="theme-toggle" id="themeToggle" aria-label="Cambiar a modo claro" onclick="toggleTheme()">
-      <svg class="ico theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-      <svg class="ico theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
-    </button>
-    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navMenu" onclick="toggleNav()">
-      <svg class="ico nav-toggle-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      <svg class="ico nav-toggle-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <ul id="navMenu">
-      <li><a href="#servicios" onclick="closeNav()">Servicios</a></li>
-      <li><a href="#plataforma" onclick="closeNav()">Plataforma</a></li>
-      <li><a href="#como-funciona" onclick="closeNav()">Proceso</a></li>
-      <li><a href="#precios" onclick="closeNav()">Precios</a></li>
-      <li><a href="#" class="nav-cta" onclick="openModal(event); closeNav();">Agendar demo →</a></li>
-    </ul>
+  <div class="wrap">
+    <a href="#inicio" class="logo-with-img" aria-label="MarthyIAM — inicio">
+      <img src="/logo.svg?v=3" alt="MarthyIAM" class="logo-img logo-dark">
+      <img src="/assets/logo-light.svg?v=1" alt="" class="logo-img logo-light" aria-hidden="true">
+    </a>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar a modo claro">
+        <svg class="ico theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="ico theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+      </button>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="navMenu">
+        <svg class="ico nav-toggle-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg class="ico nav-toggle-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <ul id="navMenu">
+        <li><a href="#soluciones">Soluciones</a></li>
+        <li><a href="#desarrollos">Desarrollos</a></li>
+        <li><a href="#capacidades">Capacidades</a></li>
+        <li><a href="#proceso">Proceso</a></li>
+        <li><a href="#contacto" class="nav-cta" data-open-modal="">Cotiza tu proyecto →</a></li>
+      </ul>
+    </div>
   </div>
 </nav>
 
+<main id="inicio">
+
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-inner">
-    <div class="eyebrow">Identity &amp; Access Management</div>
-    <h1>
-      Controla quién accede<br>
-      a <em>qué</em>, desde un<br>
-      solo lugar
-    </h1>
-    <p class="hero-sub">
-      Gestión de identidades enterprise para PYMEs y startups.
-      Alta, baja y modificación de usuarios en Active Directory, Salesforce
-      y bases de datos — automatizado, auditable, seguro.
-    </p>
-    <div class="hero-actions">
-      <a href="#" class="btn-primary" onclick="openModal(event)">
-        Agendar demo gratuita →
-      </a>
-      <a href="#servicios" class="btn-ghost">Ver servicios</a>
-    </div>
-    <div class="hero-trust">
-      <div class="trust-item"><span class="trust-dot"></span> Plataforma activa</div>
-      <div class="trust-item"><span>·</span> Implementación en 2 meses (60 días)</div>
-      <div class="trust-item"><span>·</span> OIDC / OAuth 2.0 / MFA</div>
-    </div>
-    <div style="margin-top:1.5rem;">
-      <span style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--cyan-dim);border:1px solid rgba(79,107,255,0.3);color:var(--white);font-weight:600;font-size:0.78rem;padding:0.4rem 1rem;border-radius:20px;letter-spacing:0.05em;">
-        <span style="font-size:0.9rem;">🇨🇱</span> PRIMERA SOLUCIÓN 100% CHILENA
-      </span>
-    </div>
+  <div class="bubble-field" aria-hidden="true">
+    <div class="bubble-wrap" style="width:8px;height:8px;top:18%;left:8%;--dur:19s;--delay:-2s;--dx:6px;--dy:-24px;--op:0.28;"><div class="bubble-shape"></div></div>
+    <div class="bubble-wrap" style="width:5px;height:5px;top:62%;left:20%;--dur:15s;--delay:-6s;--dx:-5px;--dy:-18px;--op:0.22;"><div class="bubble-shape"></div></div>
+    <div class="bubble-wrap" style="width:12px;height:12px;top:30%;left:52%;--dur:24s;--delay:-9s;--dx:8px;--dy:-30px;--op:0.18;"><div class="bubble-shape"></div></div>
+    <div class="bubble-wrap" style="width:6px;height:6px;top:82%;left:46%;--dur:17s;--delay:-4s;--dx:-6px;--dy:-16px;--op:0.3;"><div class="bubble-shape"></div></div>
+    <div class="bubble-wrap" style="width:9px;height:36px;top:14%;left:92%;--rot:16deg;--dur:26s;--delay:-11s;--dx:5px;--dy:-14px;--op:0.14;"><div class="bubble-shape"></div></div>
   </div>
-
-  <!-- Demo Window -->
-  <div class="hero-visual">
-    <div class="demo-window" id="demoWidget">
-      <div class="demo-window-bar" onclick="toggleDemo()">
-        <div class="demo-bar-left">
-          <div class="dot dot-r"></div>
-          <div class="dot dot-y"></div>
-          <div class="dot dot-g"></div>
-          <span class="demo-window-title">panel.marthyiam.com</span>
-        </div>
-        <span class="demo-expand-btn" id="expandBtn">↗ expandir</span>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Desarrollo de software a medida</div>
+      <h1>Convertimos tus procesos en <em>aplicaciones</em> que tu equipo sí usa</h1>
+      <p class="hero-sub">
+        Intranets corporativas, sitios web, apps a medida, sistemas de gestión para restaurantes y talleres,
+        y herramientas para administrar Active Directory e identidades. Un mismo equipo las diseña, las construye y las pone en marcha.
+      </p>
+      <div class="hero-actions">
+        <a href="#contacto" class="btn-primary" data-open-modal="">Cotiza tu proyecto <svg class="ico"><use href="#i-arrow"/></svg></a>
+        <a href="#desarrollos" class="btn-ghost">Ver nuestros desarrollos</a>
       </div>
-
-      <!-- Vista colapsada (resumen) -->
-      <div class="demo-collapsed">
-        <div class="demo-collapsed-row">
-          <span class="demo-icon"><svg class="ico"><use href="#ico-user"/></svg></span>
-          <span class="demo-row-text">Ana García — Alta completada</span>
-          <span class="demo-row-badge badge-green"><svg class="ico"><use href="#ico-check-circle"/></svg> activo</span>
-        </div>
-        <div class="demo-collapsed-row">
-          <span class="demo-icon"><svg class="ico"><use href="#ico-clock"/></svg></span>
-          <span class="demo-row-text">Juan Pérez — Pendiente RRHH</span>
-          <span class="demo-row-badge badge-amber">en espera</span>
-        </div>
-        <div class="demo-collapsed-row">
-          <span class="demo-icon"><svg class="ico"><use href="#ico-lock"/></svg></span>
-          <span class="demo-row-text">Baja Carlos Soto — AD + SF</span>
-          <span class="demo-row-badge badge-cyan">procesando</span>
-        </div>
-        <div class="demo-collapsed-row">
-          <span class="demo-icon"><svg class="ico"><use href="#ico-clipboard"/></svg></span>
-          <span class="demo-row-text">Ticket ProactivaNET #4822</span>
-          <span class="demo-row-badge badge-green"><svg class="ico"><use href="#ico-check-circle"/></svg> creado</span>
-        </div>
-        <div style="padding: 0.5rem 0.85rem; font-size: 0.75rem; color: var(--dw-text-dim); text-align: center;">
-          Haz click para ver el flujo completo ↗
-        </div>
+      <div class="hero-trust">
+        <div class="trust-item"><span class="trust-dot"></span> Aplicaciones en producción</div>
+        <div class="trust-item"><span>·</span> Celular, tablet y computador</div>
+        <div class="trust-item"><span>·</span> Hecho en Chile</div>
       </div>
+    </div>
 
-      <!-- Vista expandida (detalle) -->
-      <div class="demo-expanded">
-        <div><span class="t-comment"># Alta de usuario — flujo automático</span></div>
-        <div>&nbsp;</div>
-        <div><span class="t-key">user</span> = {</div>
-        <div>&nbsp; <span class="t-key">"email"</span>: <span class="t-str">"ana.garcia@empresa.com"</span>,</div>
-        <div>&nbsp; <span class="t-key">"area"</span>: <span class="t-str">"Ventas"</span>,</div>
-        <div>&nbsp; <span class="t-key">"rol"</span>: <span class="t-str">"Ejecutivo Senior"</span>,</div>
-        <div>&nbsp; <span class="t-key">"sistemas"</span>: [<span class="t-str">"AD"</span>, <span class="t-str">"Salesforce"</span>, <span class="t-str">"ERP"</span>]</div>
-        <div>}</div>
-        <div>&nbsp;</div>
-        <div><span class="t-comment"># Aprobación: Manager → RRHH → IT</span></div>
-        <div><span class="t-key">workflow</span>.<span class="t-val">approve</span>(user) <span class="t-comment"># ✓ 3/3</span></div>
-        <div>&nbsp;</div>
-        <div><span class="t-key">iam</span>.<span class="t-val">provision</span>(user)</div>
-        <div><span class="t-comment">  → AD account created</span> <span class="t-val">✓</span></div>
-        <div><span class="t-comment">  → Salesforce license assigned</span> <span class="t-val">✓</span></div>
-        <div><span class="t-comment">  → ERP permissions granted</span> <span class="t-val">✓</span></div>
-        <div><span class="t-comment">  → Ticket ProactivaNET #4821</span> <span class="t-val">✓</span></div>
-        <div>&nbsp;</div>
-        <div><span class="t-dim">$</span> <span class="t-cursor"></span></div>
+    <div class="hero-visual">
+      <div class="mock" aria-hidden="true">
+        <div class="mock-bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="mock-title">panel · marthyiam</span>
+          <span class="live"><i></i>en línea</span>
+        </div>
+        <div class="mock-body">
+          <div class="ws-row">
+            <span class="ws-ico" style="--c:#14B8A6;--cbg:rgba(20,184,166,.16)"><svg class="ico"><use href="#i-layout"/></svg></span>
+            <div class="ws-txt"><b>Intranet corporativa</b><small>Noticias · documentos · ideas</small></div>
+            <span class="pill pill-green">publicada</span>
+          </div>
+          <div class="ws-row">
+            <span class="ws-ico" style="--c:#F2622B;--cbg:rgba(242,98,43,.16)"><svg class="ico"><use href="#i-chef"/></svg></span>
+            <div class="ws-txt"><b>Comandas · restaurante</b><small>Caja · cocina · stock</small></div>
+            <span class="pill pill-green">en vivo</span>
+          </div>
+          <div class="ws-row">
+            <span class="ws-ico" style="--c:#F59E0B;--cbg:rgba(245,158,11,.16)"><svg class="ico"><use href="#i-wrench"/></svg></span>
+            <div class="ws-txt"><b>Control de taller</b><small>Órdenes · cotizaciones · caja</small></div>
+            <span class="pill pill-blue">multi-taller</span>
+          </div>
+          <div class="ws-row">
+            <span class="ws-ico" style="--c:#6E93FF;--cbg:rgba(110,147,255,.16)"><svg class="ico"><use href="#i-network"/></svg></span>
+            <div class="ws-txt"><b>Active Directory</b><small>Usuarios · grupos · reportes</small></div>
+            <span class="pill pill-blue">sincronizado</span>
+          </div>
+          <div class="ws-row">
+            <span class="ws-ico" style="--c:#A78BFA;--cbg:rgba(167,139,250,.16)"><svg class="ico"><use href="#i-shield"/></svg></span>
+            <div class="ws-txt"><b>Gestión de identidades</b><small>Aprobaciones · MFA · auditoría</small></div>
+            <span class="pill pill-green">auditado</span>
+          </div>
+          <div class="ws-foot">Vista referencial</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROBLEM STRIP -->
+<!-- PROBLEMAS -->
 <div class="problem-strip">
-  <div class="problem-item">
-    <div class="problem-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></div>
-    <div class="problem-text">
-      <strong>Accesos que nadie revocó</strong>
-      <span>Ex-empleados con credenciales activas meses después de irse.</span>
+  <div class="wrap problem-grid">
+    <div class="problem-item">
+      <div class="icon-chip"><svg class="ico"><use href="#i-file"/></svg></div>
+      <div><strong>Procesos en Excel y correos</strong><span>Planillas, macros y adjuntos que nadie logra mantener al día.</span></div>
     </div>
-  </div>
-  <div class="problem-item">
-    <div class="problem-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 6h6M9 11h6M9 16h4"/></svg></div>
-    <div class="problem-text">
-      <strong>Onboarding manual y lento</strong>
-      <span>IT tarda días configurando cuentas en cada sistema por separado.</span>
+    <div class="problem-item">
+      <div class="icon-chip"><svg class="ico"><use href="#i-layers"/></svg></div>
+      <div><strong>Información dispersa</strong><span>Cada área con su propia herramienta y sin una vista única.</span></div>
     </div>
-  </div>
-  <div class="problem-item">
-    <div class="problem-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
-    <div class="problem-text">
-      <strong>Auditorías imposibles</strong>
-      <span>No hay registro de quién autorizó qué cambio ni cuándo.</span>
+    <div class="problem-item">
+      <div class="icon-chip"><svg class="ico"><use href="#i-clock"/></svg></div>
+      <div><strong>Tareas repetitivas</strong><span>Horas del equipo gastadas en copiar, cruzar y armar reportes a mano.</span></div>
     </div>
-  </div>
-  <div class="problem-item">
-    <div class="problem-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="8" height="8" rx="1"/><rect x="14" y="10" width="8" height="8" rx="1"/><path d="M10 10V8h4M6 14v2"/></svg></div>
-    <div class="problem-text">
-      <strong>Sistemas desconectados</strong>
-      <span>AD, Salesforce y tu ERP operan en silos sin sincronía.</span>
+    <div class="problem-item">
+      <div class="icon-chip"><svg class="ico"><use href="#i-lock"/></svg></div>
+      <div><strong>Sin trazabilidad</strong><span>No queda registro de quién hizo qué cambio ni cuándo.</span></div>
     </div>
   </div>
 </div>
 
-<!-- SERVICIOS -->
-<section id="servicios">
-  <div class="reveal">
-    <div class="section-label">// servicios</div>
-    <h2>Lo que hacemos por ti</h2>
-    <p class="section-intro">
-      Desde la consultoría estratégica hasta la operación diaria — nos adaptamos
-      al tamaño y ritmo de tu empresa.
-    </p>
-  </div>
-  <div class="services-grid reveal">
-    <div class="service-card">
-      <div class="service-icon"><svg class="ico"><use href="#ico-target"/></svg></div>
-      <h3>Consultoría IAM</h3>
-      <p>Diagnóstico de tu postura de identidades, diseño de arquitectura RBAC/ABAC
-         y hoja de ruta de implementación adaptada a tu stack.</p>
-      <span class="service-tag">strategy</span>
+<!-- SOLUCIONES -->
+<section class="section" id="soluciones">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-label">// soluciones</div>
+      <h2>Lo que desarrollamos para tu empresa</h2>
+      <p class="section-intro">Desde un sitio web hasta un sistema completo de gestión: elegimos la herramienta que calza con tu operación, no al revés.</p>
     </div>
-    <div class="service-card">
-      <div class="service-icon"><svg class="ico"><use href="#ico-rocket"/></svg></div>
-      <h3>Plataforma SaaS</h3>
-      <p>Tu propio portal IAM multi-tenant con workflows de aprobación, conectores
-         a AD, Salesforce y PostgreSQL, y panel de auditoría en tiempo real.</p>
-      <span class="service-tag">saas · cloud</span>
-    </div>
-    <div class="service-card">
-      <div class="service-icon"><svg class="ico"><use href="#ico-wrench"/></svg></div>
-      <h3>Implementación y soporte</h3>
-      <p>Despliegue guiado, integración de tus sistemas existentes, capacitación
-         del equipo y SLA de soporte mensual.</p>
-      <span class="service-tag">onboarding · sla</span>
-    </div>
-    <div class="service-card">
-      <div class="service-icon"><svg class="ico"><use href="#ico-graduation"/></svg></div>
-      <h3>Formación / Capacitación</h3>
-      <p>Talleres prácticos de seguridad de identidades para tu equipo IT y de
-         gestión: desde conceptos base hasta administración avanzada.</p>
-      <span class="service-tag">training · workshop</span>
-    </div>
-  </div>
-</section>
-
-<!-- PLATAFORMA -->
-<section id="plataforma" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-  <div class="reveal">
-    <div class="section-label">// plataforma</div>
-    <h2>Una plataforma, todos<br>tus sistemas</h2>
-    <p class="section-intro">
-      Construida sobre estándares enterprise — OIDC, MFA TOTP, políticas OPA —
-      pero diseñada para que cualquier equipo pueda operarla.
-    </p>
-  </div>
-  <div class="platform-layout reveal">
-    <ul class="feature-list">
-      <li>
-        <div class="check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
-        <div>
-          <strong>Alta/Baja/Modificación automática</strong>
-          <span>Provisioning y deprovisioning en AD, Salesforce y PostgreSQL con un solo flujo.</span>
-        </div>
-      </li>
-      <li>
-        <div class="check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
-        <div>
-          <strong>Workflows de aprobación configurables</strong>
-          <span>Define cadenas de aprobación por área, equipo o persona. Con escalado automático.</span>
-        </div>
-      </li>
-      <li>
-        <div class="check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
-        <div>
-          <strong>MFA y rotación de tokens</strong>
-          <span>Autenticación multifactor TOTP, refresh token rotation y sesiones seguras.</span>
-        </div>
-      </li>
-      <li>
-        <div class="check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
-        <div>
-          <strong>Auditoría completa e inmutable</strong>
-          <span>Cada cambio registrado con autor, timestamp y motivo. Exportable para compliance.</span>
-        </div>
-      </li>
-      <li>
-        <div class="check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
-        <div>
-          <strong>Integración ProactivaNET</strong>
-          <span>Ticketing ITSM nativo con circuit breaker y reintentos automáticos.</span>
-        </div>
-      </li>
-    </ul>
-
-    <div class="stats-card">
-      <div class="stats-card-header">
-        <span>panel.marthyiam.io</span>
-        <div class="live-badge"><div class="live-dot"></div> en vivo</div>
-      </div>
-      <div class="stats-body">
-        <div class="stat-block">
-          <div class="stat-num">< 2s</div>
-          <div class="stat-label">Tiempo de provisioning promedio</div>
-        </div>
-        <div class="stat-block">
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Acciones auditadas y trazables</div>
-        </div>
-        <div class="stat-block">
-          <div class="stat-num">99.9%</div>
-          <div class="stat-label">Uptime garantizado en SLA</div>
-        </div>
-        <div class="stat-block">
-          <div class="stat-num">0</div>
-          <div class="stat-label">Accesos huérfanos tras offboarding</div>
-        </div>
-      </div>
-      <div class="connectors-row">
-        <span class="connector-pill active">Active Directory</span>
-        <span class="connector-pill active">Salesforce</span>
-        <span class="connector-pill active">PostgreSQL</span>
-        <span class="connector-pill active">ProactivaNET</span>
-        <span class="connector-pill">Azure AD</span>
-        <span class="connector-pill">Slack</span>
-      </div>
+    <div class="sol-grid reveal">
+      <article class="sol-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-layout"/></svg></div>
+        <h3>Intranets corporativas</h3>
+        <p>Un portal interno con noticias, documentos, ideas, reconocimientos, mesa de ayuda y accesos directos a tus herramientas.</p>
+        <span class="tag">comunicación interna</span>
+      </article>
+      <article class="sol-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-globe"/></svg></div>
+        <h3>Sitios web y landing pages</h3>
+        <p>Sitios públicos modernos, rápidos y responsivos, con modo claro y oscuro, pensados para presentar y vender tu propuesta.</p>
+        <span class="tag">web · marca</span>
+      </article>
+      <article class="sol-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-phone"/></svg></div>
+        <h3>Apps a medida</h3>
+        <p>Aplicaciones web y móviles para tu operación, con roles, reportes, exportación a Excel y PDF, y uso cómodo desde el celular.</p>
+        <span class="tag">web · pwa · móvil</span>
+      </article>
+      <article class="sol-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-chef"/></svg></div>
+        <h3>Gestión de restaurantes</h3>
+        <p>Comandas, caja, cocina en tiempo real, menú con código QR, control de stock por receta y ganancia neta del día.</p>
+        <span class="tag">restaurantes · gastronomía</span>
+      </article>
+      <article class="sol-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-wrench"/></svg></div>
+        <h3>Talleres mecánicos</h3>
+        <p>Órdenes de trabajo, cotizaciones, ventas, caja, compras y existencias, con reportes de costo y ganancia neta.</p>
+        <span class="tag">talleres · servicios</span>
+      </article>
+      <article class="sol-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-network"/></svg></div>
+        <h3>Administración de Active Directory</h3>
+        <p>Consolas web para gestionar usuarios, grupos y unidades organizativas, con altas masivas por reglas y paneles de seguridad.</p>
+        <span class="tag">ti · infraestructura</span>
+      </article>
+      <article class="sol-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-shield"/></svg></div>
+        <h3>Gestión de identidades (IAM)</h3>
+        <p>Altas, bajas y modificaciones de accesos con flujos de aprobación, MFA y un registro de auditoría inalterable.</p>
+        <span class="tag">seguridad · accesos</span>
+      </article>
+      <article class="sol-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-zap"/></svg></div>
+        <h3>Automatización e innovación</h3>
+        <p>Convertimos macros y planillas en aplicaciones, armamos dashboards, alertas e integraciones, y aplicamos IA donde aporta valor.</p>
+        <span class="tag">procesos · ia</span>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- COMO FUNCIONA -->
-<section id="como-funciona" style="overflow:hidden">
-  <div class="bubble-field">
+<!-- DESARROLLOS -->
+<section class="section alt" id="desarrollos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-label">// desarrollos</div>
+      <h2>Aplicaciones que ya están funcionando</h2>
+      <p class="section-intro">Una muestra de lo que construimos. Cada una nació de un problema real y hoy se usa en el día a día.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Desarrollos">
+      <button class="tab" role="tab" id="tab-resto" aria-controls="panel-resto" aria-selected="true" type="button"><svg class="ico"><use href="#i-chef"/></svg>Restaurante</button>
+      <button class="tab" role="tab" id="tab-taller" aria-controls="panel-taller" aria-selected="false" tabindex="-1" type="button"><svg class="ico"><use href="#i-wrench"/></svg>Taller mecánico</button>
+      <button class="tab" role="tab" id="tab-ad" aria-controls="panel-ad" aria-selected="false" tabindex="-1" type="button"><svg class="ico"><use href="#i-network"/></svg>Active Directory</button>
+      <button class="tab" role="tab" id="tab-iam" aria-controls="panel-iam" aria-selected="false" tabindex="-1" type="button"><svg class="ico"><use href="#i-shield"/></svg>Identidades (IAM)</button>
+      <button class="tab" role="tab" id="tab-intra" aria-controls="panel-intra" aria-selected="false" tabindex="-1" type="button"><svg class="ico"><use href="#i-layout"/></svg>Intranet</button>
+      <button class="tab" role="tab" id="tab-dash" aria-controls="panel-dash" aria-selected="false" tabindex="-1" type="button"><svg class="ico"><use href="#i-chart"/></svg>Dashboards</button>
+      <button class="tab" role="tab" id="tab-plat" aria-controls="panel-plat" aria-selected="false" tabindex="-1" type="button"><svg class="ico"><use href="#i-sparkles"/></svg>Innovación</button>
+    </div>
+
+    <!-- Restaurante -->
+    <div class="show-panel" id="panel-resto" role="tabpanel" aria-labelledby="tab-resto">
+      <div class="show-mock">
+        <div class="mock" style="--ma:#F2622B" aria-hidden="true">
+          <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="mock-title">comandas · cocina</span><span class="live"><i></i>en vivo</span></div>
+          <div class="mock-body">
+            <div class="kds">
+              <div class="kds-col">
+                <h5>Recibido <b>2</b></h5>
+                <div class="tk"><div class="tk-h"><b>#42</b><span>Mesa 3</span><em>3 min</em></div><p>2× Completo italiano</p><p>1× Bebida 500 cc</p></div>
+                <div class="tk"><div class="tk-h"><b>#43</b><span>Para llevar</span><em>1 min</em></div><p>1× Churrasco palta</p></div>
+              </div>
+              <div class="kds-col">
+                <h5>En preparación <b>1</b></h5>
+                <div class="tk late"><div class="tk-h"><b>#40</b><span>Mesa 1</span><em>17 min</em></div><p>3× Hamburguesa clásica</p><p><span class="pill pill-red" style="margin-top:.3rem">Retrasado</span></p></div>
+              </div>
+              <div class="kds-col">
+                <h5>Listo <b>1</b></h5>
+                <div class="tk ok"><div class="tk-h"><b>#39</b><span>Mesa 5</span><em>6 min</em></div><p>2× Sándwich de lomito</p></div>
+              </div>
+            </div>
+            <div class="mini-kpis">
+              <div class="mk"><small>Ventas hoy</small><b>$386.500</b></div>
+              <div class="mk"><small>Costo insumos</small><b>$142.300</b></div>
+              <div class="mk"><small>Ganancia neta</small><b class="up">$244.200</b></div>
+            </div>
+          </div>
+        </div>
+        <p class="mock-cap">Vista referencial · datos de ejemplo</p>
+      </div>
+      <div class="show-info">
+        <div class="badges"><span class="badge badge-live">● En producción</span><span class="badge">Multi-local (SaaS)</span></div>
+        <h3>Comandas · Sistema para restaurantes</h3>
+        <p>Caja, cocina y mesa conectadas en tiempo real. Tu equipo toma el pedido, la cocina lo ve al instante y el stock se descuenta solo, según la receta de cada plato.</p>
+        <ul class="check-list">
+          <li>Caja con combos, agregados y notas; pago en efectivo o tarjeta con vuelto automático</li>
+          <li>Pantalla de cocina en vivo, con alerta cuando un pedido pasa de 15 minutos</li>
+          <li>Menú digital con código QR para tus clientes</li>
+          <li>Control de stock por receta y ganancia neta (ventas menos costo de insumos)</li>
+          <li>Roles de administrador, caja, cocina y mesero, y una marca propia para cada local</li>
+        </ul>
+        <div class="chips"><span class="chip">Node.js</span><span class="chip">React</span><span class="chip">PostgreSQL</span><span class="chip">Redis</span><span class="chip">Socket.io</span></div>
+        <a href="#contacto" class="btn-ghost btn-sm" data-open-modal="Sistema para restaurante (Comandas)">Quiero algo así <svg class="ico"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Taller -->
+    <div class="show-panel" id="panel-taller" role="tabpanel" aria-labelledby="tab-taller" hidden>
+      <div class="show-mock">
+        <div class="mock" style="--ma:#F59E0B" aria-hidden="true">
+          <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="mock-title">control taller · reparaciones</span></div>
+          <div class="mock-body">
+            <div class="ot-head"><b>OT #1024</b><span>ABCD12 · Toyota Yaris 2018</span><span class="pill pill-amber">En reparación</span></div>
+            <div class="tscroll">
+              <table class="tbl">
+                <thead><tr><th>Detalle</th><th>Tipo</th><th class="r">Monto</th></tr></thead>
+                <tbody>
+                  <tr><td>Cambio de aceite y filtro</td><td>Servicio</td><td class="r">$35.000</td></tr>
+                  <tr><td>Filtro de aceite</td><td>Repuesto</td><td class="r">$8.900</td></tr>
+                  <tr><td>Aceite 5W-30 (4 L)</td><td>Insumo</td><td class="r">$24.000</td></tr>
+                  <tr><td>Revisión de frenos</td><td>Servicio</td><td class="r">$18.000</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mini-kpis">
+              <div class="mk"><small>Total</small><b>$85.900</b></div>
+              <div class="mk"><small>Costo</small><b>$31.200</b></div>
+              <div class="mk"><small>Ganancia</small><b class="up">$54.700</b></div>
+            </div>
+            <div class="btn-row"><span class="fake-btn">Imprimir</span><span class="fake-btn">Enviar cotización</span><span class="fake-btn pri">Cobrar</span></div>
+          </div>
+        </div>
+        <p class="mock-cap">Vista referencial · datos de ejemplo</p>
+      </div>
+      <div class="show-info">
+        <div class="badges"><span class="badge badge-live">● En producción</span><span class="badge">Multi-taller (SaaS)</span></div>
+        <h3>Control Taller · Gestión para talleres mecánicos</h3>
+        <p>Desde que llega el vehículo hasta el cobro: órdenes de trabajo, cotizaciones, ventas, caja, compras y existencias en un solo lugar, también desde el celular.</p>
+        <ul class="check-list">
+          <li>Órdenes de trabajo con repuestos y mano de obra, con cobro directo a caja</li>
+          <li>Cotizaciones imprimibles o por correo, que vencen a los 5 días</li>
+          <li>Existencias, compras a proveedores y costo real de cada trabajo</li>
+          <li>Reportes de costo y ganancia neta; roles de administrador, cajero y mecánico</li>
+          <li>Instalable en el celular, con barra de navegación táctil; un solo sistema para muchos talleres</li>
+        </ul>
+        <div class="chips"><span class="chip">Node.js</span><span class="chip">React</span><span class="chip">PostgreSQL</span><span class="chip">Prisma</span><span class="chip">PWA</span></div>
+        <a href="#contacto" class="btn-ghost btn-sm" data-open-modal="Sistema para taller mecánico">Quiero algo así <svg class="ico"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Active Directory -->
+    <div class="show-panel" id="panel-ad" role="tabpanel" aria-labelledby="tab-ad" hidden>
+      <div class="show-mock">
+        <div class="mock" style="--ma:#6E93FF" aria-hidden="true">
+          <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="mock-title">admin ad · usuarios</span></div>
+          <div class="mock-body">
+            <div class="ad">
+              <div class="tree">
+                <div>▾ empresa.local</div>
+                <div class="l1">▾ Usuarios</div>
+                <div class="l2 sel">Ventas</div>
+                <div class="l2">Finanzas</div>
+                <div class="l2">TI</div>
+                <div class="l1">▸ Grupos</div>
+                <div class="l1">▸ Equipos</div>
+              </div>
+              <div class="tscroll">
+                <table class="tbl">
+                  <thead><tr><th>Nombre</th><th>Usuario</th><th>Estado</th></tr></thead>
+                  <tbody>
+                    <tr><td>Camila Pérez G.</td><td>cperezg</td><td><span class="pill pill-green">Habilitada</span></td></tr>
+                    <tr><td>Diego Soto R.</td><td>dsotor</td><td><span class="pill pill-red">Bloqueada</span></td></tr>
+                    <tr><td>Ana Rojas M.</td><td>arojasm</td><td><span class="pill pill-green">Habilitada</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="preview">Vista previa · <b>cperezg@empresa.cl</b><br>OU=Ventas · +3 grupos por rol · contraseña temporal</div>
+            <div class="btn-row"><span class="fake-btn">Pegar desde Excel</span><span class="fake-btn pri">Crear 12 usuarios</span></div>
+          </div>
+        </div>
+        <p class="mock-cap">Vista referencial · datos de ejemplo</p>
+      </div>
+      <div class="show-info">
+        <div class="badges"><span class="badge badge-live">● Operativo</span><span class="badge">Probado en Active Directory real</span></div>
+        <h3>Administrador web de Active Directory</h3>
+        <p>Una consola moderna para el trabajo diario de tu equipo de TI: crea, modifica y da de baja cuentas con reglas claras y confirmación antes de cada cambio.</p>
+        <ul class="check-list">
+          <li>Usuarios, grupos, equipos y unidades organizativas desde el navegador</li>
+          <li>Altas por reglas (usuario, correo, OU y grupos según el rol) y altas masivas pegando desde Excel</li>
+          <li>Edición masiva con doble confirmación y ficha 360 de cada usuario</li>
+          <li>Reportes a Excel: cuentas inactivas, contraseñas por vencer y membresías de grupo</li>
+          <li>Panel de seguridad: cuentas privilegiadas, grupos vacíos y cambios fuera de horario</li>
+        </ul>
+        <div class="chips"><span class="chip">Node.js</span><span class="chip">LDAPS</span><span class="chip">PowerShell</span><span class="chip">Excel</span></div>
+        <a href="#contacto" class="btn-ghost btn-sm" data-open-modal="Administración de Active Directory">Quiero algo así <svg class="ico"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <!-- IAM -->
+    <div class="show-panel" id="panel-iam" role="tabpanel" aria-labelledby="tab-iam" hidden>
+      <div class="show-mock">
+        <div class="mock" style="--ma:#4F6BFF" aria-hidden="true">
+          <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="mock-title">iam · solicitud de acceso</span></div>
+          <div class="mock-body">
+            <div class="stepper">
+              <div class="st done"><i>✓</i>Solicitud</div>
+              <div class="st done"><i>✓</i>Jefatura</div>
+              <div class="st now"><i>3</i>RR.HH.</div>
+              <div class="st"><i>4</i>TI</div>
+              <div class="st"><i>5</i>Listo</div>
+            </div>
+            <div class="sla">
+              <div class="sla-top"><span>SLA 24 h</span><span>quedan 6 h</span></div>
+              <div class="bar"><i></i></div>
+            </div>
+            <div class="log">
+              <div><span class="ok">✓</span> 10:42 jefatura aprueba · acceso a ERP</div>
+              <div><span class="wait">●</span> 11:05 RR.HH. revisa la solicitud</div>
+              <div>⏱ escala automático si no hay respuesta en 4 h</div>
+            </div>
+            <div class="pills"><span class="pill pill-blue">Active Directory</span><span class="pill pill-blue">Salesforce</span><span class="pill pill-blue">PostgreSQL</span><span class="pill pill-green">ITSM</span></div>
+          </div>
+        </div>
+        <p class="mock-cap">Vista referencial · datos de ejemplo</p>
+      </div>
+      <div class="show-info">
+        <div class="badges"><span class="badge badge-live">● En producción</span><span class="badge badge-blue">Desarrollada 100% en Chile</span></div>
+        <h3>Plataforma de gestión de identidades (IAM)</h3>
+        <p>Controla quién accede a qué desde un solo lugar: solicitudes con aprobación, aprovisionamiento automático en tus sistemas y un registro de auditoría que nadie puede alterar.</p>
+        <ul class="check-list">
+          <li>Altas, bajas y modificaciones en Active Directory, Salesforce y bases de datos</li>
+          <li>Flujos de aprobación configurables, con SLA y escalamiento automático</li>
+          <li>Inicio de sesión con Microsoft, MFA (TOTP) y rotación de tokens</li>
+          <li>Integración con mesa de ayuda ITSM (ProactivaNET)</li>
+          <li>Auditoría inmutable y multi-empresa, con datos aislados por cliente</li>
+        </ul>
+        <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">PostgreSQL</span><span class="chip">Redis</span><span class="chip">Celery</span><span class="chip">React</span></div>
+        <div class="badges">
+          <a href="https://iam.marthyiam.com" class="btn-primary btn-sm" target="_blank" rel="noopener">Ver la plataforma <svg class="ico"><use href="#i-arrow"/></svg></a>
+          <a href="#contacto" class="btn-ghost btn-sm" data-open-modal="Gestión de identidades (IAM)">Quiero algo así</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Intranet -->
+    <div class="show-panel" id="panel-intra" role="tabpanel" aria-labelledby="tab-intra" hidden>
+      <div class="show-mock">
+        <div class="mock" style="--ma:#14B8A6" aria-hidden="true">
+          <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="mock-title">intranet · inicio</span></div>
+          <div class="mock-body">
+            <div class="in-nav">
+              <span class="in-logo"></span>
+              <span class="in-link on">Inicio</span><span class="in-link">Noticias</span><span class="in-link">Documentos</span><span class="in-link">Ideas</span>
+              <span class="in-search">Ctrl K</span>
+            </div>
+            <div class="in-banner"><b>Bienvenido al equipo</b><span>Tu portal de comunicación, documentos y herramientas.</span></div>
+            <div class="in-grid">
+              <div class="in-tile"><small>Días sin accidentes</small><strong>128</strong><p>Reportar</p></div>
+              <div class="in-tile"><small>Indicadores</small><strong>UF · USD</strong>
+                <svg class="spark" viewBox="0 0 100 22" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,18 14,15 28,16 42,10 56,12 70,6 84,8 100,3" fill="none" stroke="#14B8A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="in-tile"><small>Novedades</small><p>Nueva política de seguridad</p><p>Charla de la semana</p></div>
+            </div>
+          </div>
+        </div>
+        <p class="mock-cap">Vista referencial · datos de ejemplo</p>
+      </div>
+      <div class="show-info">
+        <div class="badges"><span class="badge badge-live">● En producción</span><span class="badge">Casos reales: industria y servicios financieros</span></div>
+        <h3>Intranets corporativas a la medida</h3>
+        <p>El punto de encuentro de tu empresa: comunicación, documentos y herramientas en un portal con la marca de tu organización, cómodo en el computador y en el celular.</p>
+        <ul class="check-list">
+          <li>Noticias, comunicados, directorio de personas e indicadores (UF, dólar, clima)</li>
+          <li>Seguridad laboral: reportes con foto, charla diaria con acuse y días sin accidentes</li>
+          <li>Documentos con versión, vigencia y lectura obligatoria (ISO)</li>
+          <li>Ideas con votos, reconocimientos, inducción y tickets de ayuda</li>
+          <li>Tablero para pantallas de TV y avisos push al celular</li>
+        </ul>
+        <div class="chips"><span class="chip">Node.js</span><span class="chip">PostgreSQL</span><span class="chip">PWA</span><span class="chip">Web Push</span></div>
+        <a href="#contacto" class="btn-ghost btn-sm" data-open-modal="Intranet corporativa">Quiero algo así <svg class="ico"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Dashboards -->
+    <div class="show-panel" id="panel-dash" role="tabpanel" aria-labelledby="tab-dash" hidden>
+      <div class="show-mock">
+        <div class="mock" style="--ma:#3B82F6" aria-hidden="true">
+          <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="mock-title">dashboard · resumen del mes</span></div>
+          <div class="mock-body">
+            <div class="dash-kpis">
+              <div class="mk"><small>Registros</small><b>3.899</b></div>
+              <div class="mk"><small>Cumplimiento</small><b class="up">89,7%</b></div>
+              <div class="mk"><small>Tiempo medio</small><b>1,4 d</b></div>
+              <div class="mk"><small>Pendientes</small><b>32</b></div>
+            </div>
+            <div class="dash-main">
+              <div class="panel">
+                <h5>Volumen mensual</h5>
+                <div class="bars"><i style="--h:42%"></i><i class="alt" style="--h:58%"></i><i style="--h:50%"></i><i class="alt" style="--h:74%"></i><i style="--h:66%"></i><i class="alt" style="--h:88%"></i></div>
+              </div>
+              <div class="panel">
+                <h5>Distribución</h5>
+                <div class="donut-wrap">
+                  <div class="donut"></div>
+                  <div class="legend"><div><i style="background:#4F6BFF"></i>Tipo A 62%</div><div><i style="background:#22C55E"></i>Tipo B 20%</div><div><i style="background:#F5A524"></i>Tipo C 18%</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="mock-cap">Vista referencial · datos de ejemplo</p>
+      </div>
+      <div class="show-info">
+        <div class="badges"><span class="badge badge-live">● Usado en operaciones reales</span><span class="badge">Sin servidor, en el navegador</span></div>
+        <h3>Dashboards y automatización de procesos</h3>
+        <p>Reemplazamos macros, planillas y reportes armados a mano por aplicaciones que leen tus datos, los cruzan y los muestran listos para decidir.</p>
+        <ul class="check-list">
+          <li>Informes de producción que cruzan órdenes y pedidos solos, con dashboard gerencial</li>
+          <li>Métricas de tickets: carga el Excel del mes y obtén volumetría, SLA y desempeño</li>
+          <li>Calculadoras de dotación y cruces de bases de datos por RUT</li>
+          <li>Exportación a Excel con formato y a PDF</li>
+          <li>Opciones que funcionan en el navegador con tus propios archivos, sin instalar nada</li>
+        </ul>
+        <div class="chips"><span class="chip">JavaScript</span><span class="chip">Excel</span><span class="chip">PDF</span><span class="chip">SQL</span></div>
+        <a href="#contacto" class="btn-ghost btn-sm" data-open-modal="Automatización de procesos y dashboards">Quiero algo así <svg class="ico"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Innovación -->
+    <div class="show-panel show-panel-wide" id="panel-plat" role="tabpanel" aria-labelledby="tab-plat" hidden>
+      <div class="plat-grid">
+        <article class="plat-card">
+          <div class="icon-chip"><svg class="ico"><use href="#i-users"/></svg></div>
+          <div class="badges"><span class="badge badge-live">● En producción</span></div>
+          <h3>Maestro · Red social de oficios</h3>
+          <p>Conecta a maestros y clientes de la Región Metropolitana: perfiles con experiencia, publicaciones, panel de administración y app móvil.</p>
+          <div class="chips"><span class="chip">Node.js</span><span class="chip">PostgreSQL</span><span class="chip">React Native</span></div>
+        </article>
+        <article class="plat-card">
+          <div class="icon-chip"><svg class="ico"><use href="#i-zap"/></svg></div>
+          <div class="badges"><span class="badge badge-amber">Prototipo</span></div>
+          <h3>CartaVerso · Juego en tiempo real</h3>
+          <p>Red social con duelos de cartas 1 contra 1 en tiempo real, mazos, perfiles y notificaciones. Muestra lo que podemos hacer con WebSockets.</p>
+          <div class="chips"><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Socket.io</span><span class="chip">Prisma</span></div>
+        </article>
+        <article class="plat-card">
+          <div class="icon-chip"><svg class="ico"><use href="#i-sparkles"/></svg></div>
+          <div class="badges"><span class="badge badge-amber">Uso interno</span></div>
+          <h3>HistorietasIA · Contenido con IA</h3>
+          <p>Convierte un guion en una historieta con personajes consistentes, usando inteligencia artificial generativa que corre 100% en un equipo local.</p>
+          <div class="chips"><span class="chip">Node.js</span><span class="chip">Stable Diffusion</span><span class="chip">Ollama</span></div>
+        </article>
+      </div>
+      <p class="section-intro" style="margin-top:1.5rem">¿Tienes una idea de producto, una comunidad o un proceso que podría resolverse con IA? <a href="#contacto" data-open-modal="Otro / aún no lo tengo claro" style="color:var(--cyan)">Conversemos</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CAPACIDADES -->
+<section class="section" id="capacidades">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <div class="section-label">// capacidades</div>
+      <h2>Todo lo que puedes gestionar con tus aplicaciones</h2>
+      <p class="section-intro">Una sola mirada a los procesos de tu empresa que podemos ordenar, conectar y automatizar.</p>
+    </div>
+    <div class="cap-grid reveal">
+      <article class="cap-card">
+        <header><div class="icon-chip"><svg class="ico"><use href="#i-grid"/></svg></div><h3>Operación diaria</h3></header>
+        <div class="chips"><span class="chip">Ventas y caja</span><span class="chip">Pedidos y cocina</span><span class="chip">Inventario y stock</span><span class="chip">Órdenes de trabajo</span><span class="chip">Compras a proveedores</span><span class="chip">Cotizaciones</span></div>
+      </article>
+      <article class="cap-card">
+        <header><div class="icon-chip"><svg class="ico"><use href="#i-users"/></svg></div><h3>Personas y accesos</h3></header>
+        <div class="chips"><span class="chip">Active Directory</span><span class="chip">Altas, bajas y cambios</span><span class="chip">Roles y permisos</span><span class="chip">Aprobaciones con SLA</span><span class="chip">MFA</span><span class="chip">Auditoría</span></div>
+      </article>
+      <article class="cap-card">
+        <header><div class="icon-chip"><svg class="ico"><use href="#i-bell"/></svg></div><h3>Comunicación interna</h3></header>
+        <div class="chips"><span class="chip">Intranet</span><span class="chip">Noticias y comunicados</span><span class="chip">Ideas y reconocimientos</span><span class="chip">Documentos con lectura obligatoria</span><span class="chip">Avisos push</span></div>
+      </article>
+      <article class="cap-card">
+        <header><div class="icon-chip"><svg class="ico"><use href="#i-shield"/></svg></div><h3>Seguridad y cumplimiento</h3></header>
+        <div class="chips"><span class="chip">Reportes de incidentes</span><span class="chip">Documentos ISO</span><span class="chip">Registro de auditoría</span><span class="chip">Control de acceso</span><span class="chip">Políticas de contraseña</span></div>
+      </article>
+      <article class="cap-card">
+        <header><div class="icon-chip"><svg class="ico"><use href="#i-chart"/></svg></div><h3>Datos y decisiones</h3></header>
+        <div class="chips"><span class="chip">Dashboards gerenciales</span><span class="chip">KPIs en vivo</span><span class="chip">Reportes a Excel y PDF</span><span class="chip">Cruces de datos</span><span class="chip">Alertas</span></div>
+      </article>
+      <article class="cap-card">
+        <header><div class="icon-chip"><svg class="ico"><use href="#i-rocket"/></svg></div><h3>Crecimiento</h3></header>
+        <div class="chips"><span class="chip">Multi-sucursal y multi-cliente</span><span class="chip">Marca propia por cliente</span><span class="chip">Cobro por suscripción</span><span class="chip">Apps instalables</span><span class="chip">Integraciones (ERP, ITSM, CRM)</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- AUTOMATIZACIÓN -->
+<section class="section alt" id="automatizacion">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-label">// automatización e innovación</div>
+      <h2>Del Excel y los correos a una aplicación</h2>
+      <p class="section-intro">Tomamos el proceso tal como funciona hoy, quitamos lo manual y dejamos una herramienta simple que tu equipo adopta rápido.</p>
+    </div>
+    <div class="ba reveal">
+      <div class="ba-col before">
+        <h3>Hoy</h3>
+        <ul>
+          <li>Planillas de Excel duplicadas que nadie logra mantener al día</li>
+          <li>Macros frágiles que se rompen con cada cambio</li>
+          <li>Correos con adjuntos para aprobar o pedir accesos</li>
+          <li>Reportes armados a mano cada semana o cada mes</li>
+        </ul>
+      </div>
+      <div class="ba-arrow" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></div>
+      <div class="ba-col after">
+        <h3>Con tu aplicación</h3>
+        <ul>
+          <li>Los datos se ingresan una sola vez y se reutilizan en todo el proceso</li>
+          <li>Cruces, cálculos y alertas automáticos</li>
+          <li>Aprobaciones y trazabilidad: quién hizo qué y cuándo</li>
+          <li>Dashboards en vivo y exportación a Excel o PDF en un clic</li>
+        </ul>
+      </div>
+    </div>
+    <div class="case-grid reveal">
+      <article class="case">
+        <small>Caso real · Industria</small>
+        <h3>De una macro de Excel a una app</h3>
+        <p>Una macro de producción pasó a ser una aplicación que cruza órdenes y pedidos, calcula costos y márgenes, y entrega un dashboard gerencial con los datos acumulados mes a mes.</p>
+      </article>
+      <article class="case">
+        <small>Caso real · TI y servicios</small>
+        <h3>Métricas en minutos</h3>
+        <p>El export mensual de un sistema de tickets se transforma en volumetría, cumplimiento de SLA y desempeño por analista, con un Excel formateado listo para presentar.</p>
+      </article>
+      <article class="case">
+        <small>Caso real · Active Directory</small>
+        <h3>Altas masivas de usuarios</h3>
+        <p>Pegas las filas desde Excel y la aplicación crea decenas de cuentas aplicando reglas de nombre, ubicación, grupos y roles, con confirmación antes de escribir.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGÍA -->
+<section class="section" id="tecnologia">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <div class="section-label">// tecnología</div>
+      <h2>Modernas, seguras y fáciles de mantener</h2>
+      <p class="section-intro">Usamos herramientas probadas y buenas prácticas para que tu aplicación sea confiable hoy y pueda crecer mañana.</p>
+    </div>
+    <div class="tech-grid reveal">
+      <article class="tech-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-phone"/></svg></div>
+        <h3>Responsivas y táctiles</h3>
+        <p>Se ven y se sienten como una app en celular, tablet y computador. Algunas se instalan en la pantalla de inicio (PWA).</p>
+      </article>
+      <article class="tech-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-lock"/></svg></div>
+        <h3>Seguras por diseño</h3>
+        <p>Roles y permisos, datos aislados por cliente, límites de intentos de acceso, confirmación en acciones críticas y registro de auditoría.</p>
+      </article>
+      <article class="tech-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-refresh"/></svg></div>
+        <h3>En tiempo real</h3>
+        <p>Pedidos, avisos y paneles que se actualizan al instante con WebSockets, sin tener que recargar la página.</p>
+      </article>
+      <article class="tech-card">
+        <div class="icon-chip"><svg class="ico"><use href="#i-cloud"/></svg></div>
+        <h3>En la nube, listas para crecer</h3>
+        <p>Despliegue con contenedores y actualizaciones continuas. Una arquitectura multi-cliente permite atender a muchos con un solo sistema.</p>
+      </article>
+    </div>
+    <div class="stack reveal">
+      <span class="chip">Node.js</span><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">PostgreSQL</span><span class="chip">Redis</span><span class="chip">Docker</span><span class="chip">Prisma</span><span class="chip">Tailwind CSS</span><span class="chip">Socket.io</span><span class="chip">React Native</span><span class="chip">LDAP / LDAPS</span><span class="chip">OIDC / OAuth 2.0</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="section alt" id="proceso">
+  <div class="bubble-field" aria-hidden="true">
     <div class="bubble-wrap" style="width:8px;height:8px;top:15%;left:10%;--dur:19s;--delay:-2s;--dx:6px;--dy:-24px;--op:0.28;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:5px;height:5px;top:60%;left:22%;--dur:15s;--delay:-6s;--dx:-5px;--dy:-18px;--op:0.22;"><div class="bubble-shape"></div></div>
     <div class="bubble-wrap" style="width:12px;height:12px;top:35%;left:75%;--dur:24s;--delay:-9s;--dx:8px;--dy:-30px;--op:0.18;"><div class="bubble-shape"></div></div>
     <div class="bubble-wrap" style="width:6px;height:6px;top:80%;left:60%;--dur:17s;--delay:-4s;--dx:-6px;--dy:-16px;--op:0.3;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:9px;height:36px;top:20%;left:45%;--rot:16deg;--dur:26s;--delay:-11s;--dx:5px;--dy:-14px;--op:0.14;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:7px;height:28px;top:65%;left:88%;--rot:-12deg;--dur:21s;--delay:-7s;--dx:-4px;--dy:-10px;--op:0.16;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:4px;height:4px;top:45%;left:5%;--dur:14s;--delay:-1s;--dx:4px;--dy:-14px;--op:0.25;"><div class="bubble-shape"></div></div>
   </div>
-  <div class="reveal" style="text-align: center;">
-    <div class="section-label">// proceso</div>
-    <h2>Operativo en dos meses</h2>
-    <p class="section-intro" style="margin: 0 auto;">
-      Sin proyectos interminables. Sin consultoras de 6 meses.
-      Metodología ágil pensada para equipos pequeños.
-    </p>
-  </div>
-  <div class="steps-row reveal">
-    <div class="step">
-      <div class="step-num">01</div>
-      <h3>Demo y diagnóstico</h3>
-      <p>Entendemos tus sistemas actuales, usuarios y puntos de dolor en una sesión de 45 min.</p>
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <div class="section-label">// proceso</div>
+      <h2>Cómo trabajamos contigo</h2>
+      <p class="section-intro">Sin proyectos eternos ni sorpresas: vas viendo avances reales desde el principio.</p>
     </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <h3>Propuesta técnica</h3>
-      <p>Diseñamos la arquitectura exacta para tu empresa, con conectores, roles y workflows.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <h3>Implementación</h3>
-      <p>En 2 meses (60 días) desplegamos la plataforma, conectamos tus sistemas y capacitamos a tu equipo IT.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <h3>Operación continua</h3>
-      <p>Soporte mensual, actualizaciones y revisiones de seguridad periódicas.</p>
+    <div class="steps-row reveal">
+      <div class="step"><div class="step-num">01</div><h3>Conversamos</h3><p>Levantamos tu proceso, tus usuarios y lo que hoy más te duele.</p></div>
+      <div class="step"><div class="step-num">02</div><h3>Prototipo</h3><p>Te mostramos una versión navegable antes de construir, para ajustar a tiempo.</p></div>
+      <div class="step"><div class="step-num">03</div><h3>Desarrollo por etapas</h3><p>Entregas cortas y visibles. Tú pruebas, opinas y nosotros afinamos.</p></div>
+      <div class="step"><div class="step-num">04</div><h3>Puesta en marcha y soporte</h3><p>Capacitamos a tu equipo, publicamos y seguimos mejorando contigo.</p></div>
     </div>
   </div>
 </section>
 
-<!-- PRECIOS -->
-<section id="precios" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow:hidden;">
-  <div class="bubble-field">
-    <div class="bubble-wrap" style="width:10px;height:10px;top:12%;left:8%;--dur:20s;--delay:-3s;--dx:6px;--dy:-26px;--op:0.26;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:6px;height:6px;top:70%;left:18%;--dur:16s;--delay:-8s;--dx:-5px;--dy:-18px;--op:0.24;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:14px;height:14px;top:25%;left:92%;--dur:25s;--delay:-5s;--dx:-7px;--dy:-30px;--op:0.16;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:8px;height:32px;top:55%;left:50%;--rot:14deg;--dur:23s;--delay:-10s;--dx:5px;--dy:-12px;--op:0.13;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:5px;height:5px;top:85%;left:70%;--dur:13s;--delay:-2s;--dx:4px;--dy:-14px;--op:0.28;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:7px;height:26px;top:8%;left:35%;--rot:-18deg;--dur:19s;--delay:-6s;--dx:-4px;--dy:-10px;--op:0.15;"><div class="bubble-shape"></div></div>
-  </div>
-  <div class="reveal" style="text-align: center;">
-    <div class="section-label">// precios</div>
-    <h2>Transparente desde el inicio</h2>
-    <p class="section-intro" style="margin: 0 auto;">
-      Sin costos ocultos ni licencias por usuario infladas.
-      Elige el plan que se adapta a tu etapa.
-    </p>
-  </div>
-  <div class="pricing-grid reveal">
-    <div class="plan-card">
-      <div class="plan-name">Starter</div>
-      <div class="plan-price"><sup>$</sup>299.000<small> CLP/mes</small></div>
-      <p class="plan-desc">Para startups y equipos en crecimiento que necesitan orden en sus accesos desde el primer día.</p>
-      <ul class="plan-features">
-        <li>Hasta 50 usuarios gestionados</li>
-        <li>2 conectores incluidos (AD + 1 más)</li>
-        <li>Workflows de aprobación básicos</li>
-        <li>Auditoría completa</li>
-        <li>Soporte por email</li>
-      </ul>
-      <a href="#" class="btn-ghost" style="display:block; text-align:center;" onclick="openModal(event)">Agendar demo →</a>
+<!-- MODELOS -->
+<section class="section" id="modelos">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <div class="section-label">// modalidades</div>
+      <h2>Elige cómo quieres partir</h2>
+      <p class="section-intro">Productos listos para usar o desarrollos a tu medida, con el acompañamiento que necesites.</p>
     </div>
-    <div class="plan-card featured">
-      <div class="featured-badge">Más popular</div>
-      <div class="plan-name">Business</div>
-      <div class="plan-price"><sup>$</sup>699.000<small> CLP/mes</small></div>
-      <p class="plan-desc">Para PYMEs que buscan automatización completa de su ciclo de vida de identidades.</p>
-      <ul class="plan-features">
-        <li>Hasta 250 usuarios gestionados</li>
-        <li>Todos los conectores incluidos</li>
-        <li>Workflows multi-nivel configurables</li>
-        <li>MFA TOTP + SSO</li>
-        <li>Integración ProactivaNET</li>
-        <li>Soporte prioritario + SLA 4h</li>
-      </ul>
-      <a href="#" class="btn-primary" style="display:block; text-align:center;" onclick="openModal(event)">Agendar demo →</a>
-    </div>
-    <div class="plan-card">
-      <div class="plan-name">Enterprise</div>
-      <div class="plan-price" style="font-size: 1.6rem; padding-top: 0.4rem;">A medida</div>
-      <p class="plan-desc">Para organizaciones con requisitos específicos de compliance, on-premise o multi-tenant.</p>
-      <ul class="plan-features">
-        <li>Usuarios ilimitados</li>
-        <li>Despliegue on-premise u hybrid</li>
-        <li>Consultoría IAM incluida</li>
-        <li>Capacitación del equipo</li>
-        <li>SLA personalizado 24/7</li>
-        <li>Desarrollo de conectores custom</li>
-      </ul>
-      <a href="#" class="btn-ghost" style="display:block; text-align:center;" onclick="openModal(event)">Hablar con un experto →</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOTO CORPORATIVA -->
-<section id="equipo" style="padding: 0; position:relative; z-index:1;">
-  <div style="position:relative; height: 480px; overflow:hidden;">
-    <img
-      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&h=500&fit=crop&crop=center"
-      alt="Equipo profesional trabajando"
-      style="width:100%; height:100%; object-fit:cover; display:block;"
-    >
-    <div style="
-      position:absolute; inset:0;
-      background: linear-gradient(90deg, rgba(16,24,43,0.92) 0%, rgba(16,24,43,0.55) 50%, rgba(16,24,43,0.15) 100%);
-      display:flex; align-items:center; padding: 0 5vw;
-    ">
-      <div style="max-width:560px;">
-        <div class="section-label" style="color:#8FA8FF">// nuestro enfoque</div>
-        <h2 style="margin-bottom:1rem; color:#F7F9FD;">Tecnología enterprise,<br>trato humano</h2>
-        <p style="font-size:1rem; color:rgba(216,221,240,0.85); line-height:1.75; margin-bottom:1.75rem;">
-          Somos un equipo chileno especializado en gestión de identidades.
-          Entendemos el contexto local — las integraciones que usas, las normativas
-          que te aplican y los tiempos reales de tu equipo IT.
-        </p>
-        <a href="#" class="btn-primary" onclick="openModal(event)">Agendar demo gratuita →</a>
-      </div>
+    <div class="model-grid reveal">
+      <article class="model">
+        <div class="icon-chip"><svg class="ico"><use href="#i-cloud"/></svg></div>
+        <h3>Producto listo (SaaS)</h3>
+        <p>Comandas y Control Taller por suscripción, con tu marca y tus datos aislados del resto.</p>
+        <ul class="check-list">
+          <li>Parte rápido, sin proyecto de desarrollo</li>
+          <li>Logo, colores y nombre de tu negocio</li>
+          <li>Actualizaciones incluidas</li>
+        </ul>
+        <a href="#contacto" class="btn-ghost" data-open-modal="Sistema para restaurante (Comandas)">Consultar</a>
+      </article>
+      <article class="model featured">
+        <div class="icon-chip"><svg class="ico"><use href="#i-code"/></svg></div>
+        <h3>Desarrollo a medida</h3>
+        <p>Intranets, sitios web y aplicaciones diseñadas desde cero para cómo trabaja tu empresa.</p>
+        <ul class="check-list">
+          <li>Levantamiento y prototipo navegable</li>
+          <li>Entregas por etapas</li>
+          <li>Integración con tus sistemas actuales</li>
+        </ul>
+        <a href="#contacto" class="btn-primary" data-open-modal="App a medida">Cotiza tu proyecto</a>
+      </article>
+      <article class="model">
+        <div class="icon-chip"><svg class="ico"><use href="#i-refresh"/></svg></div>
+        <h3>Soporte y evolución</h3>
+        <p>Mantención, mejoras continuas y respaldo para que tu aplicación siga creciendo con tu negocio.</p>
+        <ul class="check-list">
+          <li>Soporte con tiempos de respuesta acordados</li>
+          <li>Nuevas funciones según tu necesidad</li>
+          <li>Actualizaciones de seguridad</li>
+        </ul>
+        <a href="#contacto" class="btn-ghost" data-open-modal="Otro / aún no lo tengo claro">Consultar</a>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- CTA FINAL -->
-<section class="cta-section reveal">
-  <div class="bubble-field">
+<section class="cta-section" id="contacto">
+  <div class="bubble-field" aria-hidden="true">
     <div class="bubble-wrap" style="width:9px;height:9px;top:18%;left:12%;--dur:18s;--delay:-4s;--dx:6px;--dy:-22px;--op:0.27;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:6px;height:6px;top:65%;left:25%;--dur:15s;--delay:-9s;--dx:-5px;--dy:-16px;--op:0.23;"><div class="bubble-shape"></div></div>
     <div class="bubble-wrap" style="width:13px;height:13px;top:30%;left:85%;--dur:26s;--delay:-6s;--dx:-8px;--dy:-28px;--op:0.17;"><div class="bubble-shape"></div></div>
     <div class="bubble-wrap" style="width:5px;height:5px;top:75%;left:60%;--dur:14s;--delay:-2s;--dx:4px;--dy:-14px;--op:0.29;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:8px;height:34px;top:10%;left:45%;--rot:15deg;--dur:24s;--delay:-12s;--dx:5px;--dy:-12px;--op:0.14;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:7px;height:27px;top:55%;left:90%;--rot:-14deg;--dur:20s;--delay:-7s;--dx:-4px;--dy:-10px;--op:0.15;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:4px;height:4px;top:40%;left:6%;--dur:13s;--delay:-1s;--dx:4px;--dy:-13px;--op:0.26;"><div class="bubble-shape"></div></div>
   </div>
-  <div class="section-label">// demo gratuita</div>
-  <h2>¿Tu equipo IT sigue gestionando<br>accesos a mano?</h2>
-  <p>
-    Agenda una demo de 45 minutos. Sin compromiso, sin presentaciones genéricas —
-    te mostramos cómo MarthyIAM resuelve tus casos específicos.
-  </p>
-  <div class="cta-actions">
-    <a href="#" class="btn-primary" onclick="openModal(event)">Agendar demo gratuita →</a>
-    <a href="mailto:hola@marthyiam.com" class="btn-ghost">hola@marthyiam.com</a>
+  <div class="wrap reveal">
+    <div class="section-label">// contacto</div>
+    <h2>¿Tienes un proceso que todavía vive en Excel o en correos?</h2>
+    <p>Cuéntanos qué necesitas y te proponemos cómo convertirlo en una aplicación a tu medida. Sin compromiso.</p>
+    <div class="cta-actions">
+      <a href="#contacto" class="btn-primary" data-open-modal="">Cotiza tu proyecto <svg class="ico"><use href="#i-arrow"/></svg></a>
+      <a href="mailto:hola@marthyiam.com" class="btn-ghost">hola@marthyiam.com</a>
+    </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+</main>
+
 <footer>
-  <div class="bubble-field">
-    <div class="bubble-wrap" style="width:6px;height:6px;top:20%;left:15%;--dur:17s;--delay:-3s;--dx:5px;--dy:-14px;--op:0.22;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:9px;height:9px;top:55%;left:70%;--dur:21s;--delay:-8s;--dx:-6px;--dy:-18px;--op:0.18;"><div class="bubble-shape"></div></div>
-    <div class="bubble-wrap" style="width:5px;height:20px;top:15%;left:88%;--rot:-16deg;--dur:19s;--delay:-5s;--dx:-4px;--dy:-8px;--op:0.13;"><div class="bubble-shape"></div></div>
+  <div class="wrap">
+    <a href="#inicio" aria-label="MarthyIAM — volver arriba">
+      <img src="/logo.svg?v=3" alt="MarthyIAM" class="logo-dark">
+      <img src="/assets/logo-light.svg?v=1" alt="" class="logo-light" aria-hidden="true">
+    </a>
+    <p>© 2026 MarthyIAM · Desarrollo de aplicaciones a medida</p>
+    <ul class="footer-links">
+      <li><a href="#soluciones">Soluciones</a></li>
+      <li><a href="#desarrollos">Desarrollos</a></li>
+      <li><a href="https://iam.marthyiam.com" target="_blank" rel="noopener">Plataforma IAM</a></li>
+      <li><a href="mailto:hola@marthyiam.com">Contacto</a></li>
+    </ul>
   </div>
-  <a href="#" class="footer-logo" style="display:flex;align-items:center;gap:0.5rem;">
-    <img src="/logo.svg?v=3" alt="MarthyIAM" style="height:32px;width:auto;">
-  </a>
-  <p>© 2026 MarthyIAM · Gestión de Identidades</p>
-  <ul class="footer-links">
-    <li><a href="#">Política de privacidad</a></li>
-    <li><a href="#">Términos de uso</a></li>
-    <li><a href="mailto:hola@marthyiam.com">Contacto</a></li>
-  </ul>
 </footer>
 
-<!-- MODAL DEMO -->
-<div class="modal-overlay" id="demoModal" onclick="handleOverlayClick(event)">
+<!-- MODAL DE CONTACTO -->
+<div class="modal-overlay" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()"><svg class="ico"><use href="#ico-x"/></svg></button>
+    <button class="modal-close" id="modalClose" type="button" aria-label="Cerrar"><svg class="ico"><use href="#i-x"/></svg></button>
 
     <div id="formState">
-      <h3>Agenda tu demo gratuita</h3>
-      <p class="modal-sub">
-        45 minutos con un especialista IAM. Te mostramos la plataforma
-        con tus casos de uso reales.
-      </p>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>Nombre</label>
-          <input type="text" id="fname" placeholder="Ana García">
+      <h3 id="modalTitle">Cotiza tu proyecto</h3>
+      <p class="modal-sub">Cuéntanos brevemente qué necesitas. Al enviar, se abrirá tu correo con el mensaje ya redactado para que lo revises y lo mandes.</p>
+      <form id="leadForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">Nombre</label>
+            <input type="text" id="fname" autocomplete="name" placeholder="Ana García">
+          </div>
+          <div class="form-group">
+            <label for="company">Empresa</label>
+            <input type="text" id="company" autocomplete="organization" placeholder="Mi Empresa S.A.">
+          </div>
         </div>
         <div class="form-group">
-          <label>Empresa</label>
-          <input type="text" id="company" placeholder="Mi Empresa S.A.">
+          <label for="email">Correo</label>
+          <input type="email" id="email" autocomplete="email" inputmode="email" placeholder="ana@miempresa.cl">
         </div>
-      </div>
-      <div class="form-group">
-        <label>Email corporativo</label>
-        <input type="email" id="email" placeholder="ana@miempresa.com">
-      </div>
-      <div class="form-group">
-        <label>Sistemas que usas actualmente</label>
-        <select id="systems">
-          <option value="" disabled selected>Selecciona...</option>
-          <option>Active Directory + Salesforce</option>
-          <option>Solo Active Directory</option>
-          <option>Solo Salesforce</option>
-          <option>Otro / No estoy seguro</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>¿Cuántos usuarios gestionas? (aprox.)</label>
-        <select id="size">
-          <option value="" disabled selected>Selecciona...</option>
-          <option>1 – 25 usuarios</option>
-          <option>26 – 100 usuarios</option>
-          <option>101 – 500 usuarios</option>
-          <option>Más de 500</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>¿Algo específico que quieras ver en la demo? (opcional)</label>
-        <textarea id="notes" placeholder="Ej: flujo de baja de empleados, integración con nuestro ERP..."></textarea>
-      </div>
-      <button class="btn-primary" onclick="submitForm()">
-        Confirmar solicitud de demo →
-      </button>
+        <div class="form-group">
+          <label for="need">¿Qué necesitas?</label>
+          <select id="need">
+            <option value="">Selecciona...</option>
+            <option>Intranet corporativa</option>
+            <option>Sitio web o landing page</option>
+            <option>App a medida</option>
+            <option>Sistema para restaurante (Comandas)</option>
+            <option>Sistema para taller mecánico</option>
+            <option>Administración de Active Directory</option>
+            <option>Gestión de identidades (IAM)</option>
+            <option>Automatización de procesos y dashboards</option>
+            <option>Otro / aún no lo tengo claro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="notes">Cuéntanos más (opcional)</label>
+          <textarea id="notes" placeholder="Ej: hoy llevamos las órdenes en Excel y queremos una app que las cruce con el inventario..."></textarea>
+        </div>
+        <div class="form-error" id="formError" role="alert"></div>
+        <button class="btn-primary" type="submit">Preparar mi mensaje <svg class="ico"><use href="#i-arrow"/></svg></button>
+      </form>
     </div>
 
     <div class="success-state" id="successState">
-      <div class="big-check"><svg class="ico"><use href="#ico-check-circle"/></svg></div>
-      <h4>¡Solicitud recibida!</h4>
-      <p>Te contactaremos en menos de 24 horas para confirmar la fecha y hora de tu demo.</p>
+      <div class="big-check"><svg class="ico" style="width:3rem;height:3rem"><use href="#i-check"/></svg></div>
+      <h4>Casi listo</h4>
+      <p>Se abrió tu programa de correo con el mensaje preparado: solo revísalo y presiona enviar. Si no se abrió, escríbenos directamente a <a href="mailto:hola@marthyiam.com">hola@marthyiam.com</a>.</p>
     </div>
   </div>
 </div>
 
-<script>
-  // Theme toggle
-  function updateThemeToggleLabel() {
-    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    document.getElementById('themeToggle').setAttribute(
-      'aria-label', isLight ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'
-    );
-  }
-  function toggleTheme() {
-    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    if (isLight) {
-      document.documentElement.removeAttribute('data-theme');
-      try { localStorage.setItem('marthyiam-theme', 'dark'); } catch (e) {}
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-      try { localStorage.setItem('marthyiam-theme', 'light'); } catch (e) {}
-    }
-    updateThemeToggleLabel();
-  }
-  updateThemeToggleLabel();
-
-  // Mobile nav
-  function toggleNav() {
-    const menu = document.getElementById('navMenu');
-    const btn = document.getElementById('navToggle');
-    const open = menu.classList.toggle('open');
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  }
-  function closeNav() {
-    document.getElementById('navMenu').classList.remove('open');
-    document.getElementById('navToggle').setAttribute('aria-expanded', 'false');
-  }
-
-  // Modal
-  function openModal(e) {
-    e.preventDefault();
-    document.getElementById('demoModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal() {
-    document.getElementById('demoModal').classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  function handleOverlayClick(e) {
-    if (e.target === document.getElementById('demoModal')) closeModal();
-  }
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeModal(); closeNav(); }
-  });
-
-  function submitForm() {
-    const email = document.getElementById('email').value.trim();
-    const name  = document.getElementById('fname').value.trim();
-    if (!name || !email) {
-      alert('Por favor completa al menos tu nombre y email.');
-      return;
-    }
-    document.getElementById('formState').style.display = 'none';
-    document.getElementById('successState').style.display = 'block';
-  }
-
-  // Demo window toggle
-  function toggleDemo() {
-    const w = document.getElementById('demoWidget');
-    const btn = document.getElementById('expandBtn');
-    w.classList.toggle('expanded');
-    btn.textContent = w.classList.contains('expanded') ? '↙ colapsar' : '↗ expandir';
-  }
-
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        obs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  reveals.forEach(el => obs.observe(el));
-</script>
+<script src="/assets/site.js?v=1" defer></script>
 </body>
 </html>
